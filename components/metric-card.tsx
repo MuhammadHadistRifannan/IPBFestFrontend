@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowUpRight, ArrowDownRight, MoreHorizontal } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   AreaChart,
@@ -63,13 +63,6 @@ export function MetricCard({
               )}
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-lg text-onyx-400 dark:text-onyx-500 hover:bg-onyx-50 dark:hover:bg-onyx-800"
-          >
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
         </div>
 
         {/* Sparkline Visualization */}

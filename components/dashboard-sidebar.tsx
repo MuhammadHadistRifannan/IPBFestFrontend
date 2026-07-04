@@ -37,31 +37,31 @@ export function DashboardSidebar({
   setCollapsed,
 }: SidebarProps) {
   const menuItems = [
-    { id: "overview", label: "Overview", icon: LayoutDashboard },
-    { id: "forecast", label: "AI Forecast", icon: TrendingUp },
-    { id: "waste", label: "Waste", icon: Trash2 },
-    { id: "sales", label: "Sales", icon: DollarSign },
-    { id: "product", label: "Product", icon: Package },
-    { id: "profit", label: "Profit", icon: PiggyBank },
+    { id: "overview", label: "Ringkasan", icon: LayoutDashboard },
+    { id: "forecast", label: "Prediksi AI", icon: TrendingUp },
+    { id: "waste", label: "Sisa Produk", icon: Trash2 },
+    { id: "sales", label: "Penjualan", icon: DollarSign },
+    { id: "product", label: "Kelola Produk", icon: Package },
+    { id: "profit", label: "Keuntungan", icon: PiggyBank },
   ];
 
   const bottomItems = [
-    { id: "settings", label: "Settings", icon: Settings },
-    { id: "help", label: "Help", icon: HelpCircle },
-    { id: "logout", label: "Log out", icon: LogOut },
+    { id: "settings", label: "Pengaturan", icon: Settings },
+    { id: "help", label: "Bantuan", icon: HelpCircle },
+    { id: "logout", label: "Keluar", icon: LogOut },
   ];
 
   return (
     <aside
       className={cn(
-        "flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30",
+        "hidden sm:flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30",
         collapsed ? "w-20" : "w-64"
       )}
     >
       {/* Brand Header */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-onyx-200/50 dark:border-onyx-800">
         <div className="flex items-center gap-2 overflow-hidden">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-lemon-lime-500 text-onyx-950 shadow-lg shadow-lemon-lime-500/20 font-bold transition-transform hover:scale-105 duration-300">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-chartreuse-500 text-onyx-950 shadow-lg shadow-chartreuse-500/20 font-bold transition-transform hover:scale-105 duration-300">
             <Leaf className="h-5 w-5" />
           </div>
           {!collapsed && (
@@ -85,7 +85,7 @@ export function DashboardSidebar({
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 py-6 px-3 space-y-1">
+      <nav className="flex-1 py-6 px-3 flex flex-col gap-2.5">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -98,16 +98,13 @@ export function DashboardSidebar({
                     <button
                       onClick={() => setActiveTab(item.id)}
                       className={cn(
-                        "flex h-12 w-full items-center justify-center rounded-xl transition-all duration-200 relative group cursor-pointer",
+                        "flex h-12 w-full items-center justify-center rounded-xl transition-all duration-300 ease-out relative group cursor-pointer",
                         isActive
-                          ? "bg-lemon-lime-500/10 text-lemon-lime-600 dark:text-lemon-lime-400 font-medium"
+                          ? "bg-chartreuse-500 text-onyx-950 font-bold"
                           : "text-onyx-500 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
                       )}
                     >
                       <Icon className="h-5 w-5 shrink-0" />
-                      {isActive && (
-                        <span className="absolute left-0 top-3 h-6 w-1 rounded-r-md bg-lemon-lime-500" />
-                      )}
                     </button>
                   }
                 />
@@ -123,9 +120,9 @@ export function DashboardSidebar({
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               className={cn(
-                "flex w-full items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-200 cursor-pointer relative group",
+                "flex w-full items-center gap-3 px-4 py-3.5 rounded-xl text-sm transition-all duration-300 ease-out cursor-pointer relative group",
                 isActive
-                  ? "bg-lemon-lime-500/10 text-lemon-lime-700 dark:text-lemon-lime-400 font-semibold"
+                  ? "bg-chartreuse-500 text-onyx-950 font-bold"
                   : "text-onyx-600 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
               )}
             >
@@ -133,21 +130,18 @@ export function DashboardSidebar({
                 className={cn(
                   "h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105",
                   isActive
-                    ? "text-lemon-lime-600 dark:text-lemon-lime-400"
+                    ? "text-onyx-950"
                     : "text-onyx-400 dark:text-onyx-500"
                 )}
               />
               <span className="truncate">{item.label}</span>
-              {isActive && (
-                <span className="absolute left-0 top-3.5 h-5 w-1 rounded-r-md bg-lemon-lime-500" />
-              )}
             </button>
           );
         })}
       </nav>
 
       {/* Bottom Actions */}
-      <div className="py-6 px-3 border-t border-onyx-200/50 dark:border-onyx-800 space-y-1">
+      <div className="py-6 px-3 border-t border-plum-900/30 dark:border-plum-900/30 flex flex-col gap-2.5">
         {bottomItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -162,9 +156,9 @@ export function DashboardSidebar({
                         if (item.id !== "logout") setActiveTab(item.id);
                       }}
                       className={cn(
-                        "flex h-12 w-full items-center justify-center rounded-xl transition-all duration-200 relative cursor-pointer",
+                        "flex h-12 w-full items-center justify-center rounded-xl transition-all duration-300 ease-out relative cursor-pointer",
                         isActive
-                          ? "bg-lemon-lime-500/10 text-lemon-lime-600 dark:text-lemon-lime-400 font-medium"
+                          ? "bg-chartreuse-500 text-onyx-950 font-bold"
                           : item.id === "logout"
                           ? "text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20"
                           : "text-onyx-500 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
@@ -188,9 +182,9 @@ export function DashboardSidebar({
                 if (item.id !== "logout") setActiveTab(item.id);
               }}
               className={cn(
-                "flex w-full items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-200 cursor-pointer relative group",
+                "flex w-full items-center gap-3 px-4 py-3.5 rounded-xl text-sm transition-all duration-300 ease-out cursor-pointer relative group",
                 isActive
-                  ? "bg-lemon-lime-500/10 text-lemon-lime-700 dark:text-lemon-lime-400 font-semibold"
+                  ? "bg-chartreuse-500 text-onyx-950 font-bold"
                   : item.id === "logout"
                   ? "text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20"
                   : "text-onyx-600 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
@@ -200,7 +194,7 @@ export function DashboardSidebar({
                 className={cn(
                   "h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105",
                   isActive
-                    ? "text-lemon-lime-600 dark:text-lemon-lime-400"
+                    ? "text-onyx-950"
                     : item.id === "logout"
                     ? "text-rose-500"
                     : "text-onyx-400 dark:text-onyx-500"

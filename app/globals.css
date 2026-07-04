@@ -83,18 +83,6 @@
   --color-toffee-brown-900: #221811;
   --color-toffee-brown-950: #18110c;
 
-  --color-lemon-lime-50: #fafde7;
-  --color-lemon-lime-100: #f5fccf;
-  --color-lemon-lime-200: #ebf8a0;
-  --color-lemon-lime-300: #e1f570;
-  --color-lemon-lime-400: #d7f240;
-  --color-lemon-lime-500: #cdee11;
-  --color-lemon-lime-600: #a4bf0d;
-  --color-lemon-lime-700: #7b8f0a;
-  --color-lemon-lime-800: #525f07;
-  --color-lemon-lime-900: #293003;
-  --color-lemon-lime-950: #1d2102;
-
   --color-chartreuse-50: #f9fee6;
   --color-chartreuse-100: #f2fecd;
   --color-chartreuse-200: #e6fc9c;
@@ -106,6 +94,11 @@
   --color-chartreuse-800: #4d6303;
   --color-chartreuse-900: #263201;
   --color-chartreuse-950: #1b2301;
+
+  --color-plum-900: #4C2B36;
+  --color-toffee-600: #8D6346;
+  --color-lemon-400: #DDF45B;
+  --color-chartreuse-500: #C6F91F;
 }
 
 :root {

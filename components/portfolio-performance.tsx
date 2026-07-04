@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight, ArrowDownRight, Layers, Award, Leaf } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Coffee, Cake, ShoppingBag } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -13,12 +12,12 @@ import {
 } from "recharts";
 
 const performanceData = [
-  { name: "Week 1", value: 42000 },
-  { name: "Week 2", value: 45000 },
-  { name: "Week 3", value: 43500 },
-  { name: "Week 4", value: 48000 },
-  { name: "Week 5", value: 50200 },
-  { name: "Week 6", value: 52422 },
+  { name: "Minggu 1", value: 2200000 },
+  { name: "Minggu 2", value: 2500000 },
+  { name: "Minggu 3", value: 2350000 },
+  { name: "Minggu 4", value: 2800000 },
+  { name: "Minggu 5", value: 3020000 },
+  { name: "Minggu 6", value: 3242200 },
 ];
 
 interface AssetCard {
@@ -37,30 +36,30 @@ export function PortfolioPerformance() {
   const assets: AssetCard[] = [
     {
       id: "asset-1",
-      name: "Carbon Credits ETF",
-      type: "Eco Equity",
-      value: "Rp320.5M",
+      name: "Kategori Roti & Kue",
+      type: "Sumbangsih Utama",
+      value: "Rp32,5 Jt",
       growth: "+14.2%",
-      colorClass: "bg-mauve-shadow-500 text-white",
-      icon: Leaf,
+      colorClass: "bg-plum-900 text-white", // Updated from bg-mauve-shadow-500
+      icon: Cake,
     },
     {
       id: "asset-2",
-      name: "Solar Farms Bond",
-      type: "Green Fixed Income",
-      value: "Rp184.2M",
+      name: "Kategori Kopi & Teh",
+      type: "Sumbangsih Stabil",
+      value: "Rp18,4 Jt",
       growth: "+8.6%",
-      colorClass: "bg-toffee-brown-500 text-white",
-      icon: Award,
+      colorClass: "bg-toffee-600 text-white", // Updated from bg-toffee-brown-500
+      icon: Coffee,
     },
     {
       id: "asset-3",
-      name: "Wind Power Index",
-      type: "Clean Tech",
-      value: "Rp284.9M",
+      name: "Kategori Dessert & Camilan",
+      type: "Pertumbuhan Cepat",
+      value: "Rp28,4 Jt",
       growth: "+22.4%",
-      colorClass: "bg-lemon-lime-500 text-onyx-950",
-      icon: Layers,
+      colorClass: "bg-chartreuse-500 text-onyx-950",
+      icon: ShoppingBag,
     },
   ];
 
@@ -73,10 +72,10 @@ export function PortfolioPerformance() {
     <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl flex flex-col h-full">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
-          Portfolio Performance
+          Ikhtisar Keuntungan
         </CardTitle>
         <CardDescription className="text-onyx-500 dark:text-onyx-400">
-          Green asset evaluation and performance logs
+          Perkembangan margin keuntungan bersih toko
         </CardDescription>
       </CardHeader>
 
@@ -85,21 +84,21 @@ export function PortfolioPerformance() {
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-onyx-50 dark:bg-onyx-950/40 p-3 rounded-xl border border-onyx-100 dark:border-onyx-800/40">
             <span className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-wider block">
-              Recycled yield (Specs)
+              Rasio Terjual (STR)
             </span>
             <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-lg font-bold text-onyx-900 dark:text-white">43.50%</span>
+              <span className="text-lg font-bold text-onyx-900 dark:text-white">76.20%</span>
               <span className="text-[10px] font-bold text-emerald-500 flex items-center">
-                <ArrowUpRight className="h-3 w-3" /> +2.45%
+                <ArrowUpRight className="h-3 w-3" /> +3.45%
               </span>
             </div>
           </div>
           <div className="bg-onyx-50 dark:bg-onyx-950/40 p-3 rounded-xl border border-onyx-100 dark:border-onyx-800/40">
             <span className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-wider block">
-              Portfolio Balance
+              Keuntungan Bersih
             </span>
             <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-lg font-bold text-onyx-900 dark:text-white">Rp789.6M</span>
+              <span className="text-lg font-bold text-onyx-900 dark:text-white">Rp79,3 Jt</span>
               <span className="text-[10px] font-bold text-rose-500 flex items-center">
                 <ArrowDownRight className="h-3 w-3" /> -4.78%
               </span>
@@ -112,13 +111,13 @@ export function PortfolioPerformance() {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={performanceData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
               <XAxis dataKey="name" hide />
-              <YAxis domain={["dataMin - 2000", "dataMax + 2000"]} hide />
+              <YAxis domain={["dataMin - 100000", "dataMax + 100000"]} hide />
               <Line
                 type="monotone"
                 dataKey="value"
-                stroke="var(--color-mauve-shadow-500)"
+                stroke="var(--color-plum-900)" // Aligned with official palette
                 strokeWidth={3}
-                dot={{ r: 4, strokeWidth: 0, fill: "var(--color-mauve-shadow-500)" }}
+                dot={{ r: 4, strokeWidth: 0, fill: "var(--color-plum-900)" }}
                 activeDot={{ r: 6 }}
               />
             </LineChart>
@@ -148,10 +147,10 @@ export function PortfolioPerformance() {
                   opacity,
                   backgroundColor:
                     asset.id === "asset-1"
-                      ? "var(--color-mauve-shadow-600)"
+                      ? "var(--color-plum-900)" // Aligned with official palette
                       : asset.id === "asset-2"
-                      ? "var(--color-toffee-brown-600)"
-                      : "var(--color-lemon-lime-500)",
+                      ? "var(--color-toffee-600)" // Aligned with official palette
+                      : "var(--color-chartreuse-500)", // Aligned with official palette
                   color: asset.id === "asset-3" ? "var(--color-onyx-950)" : "white",
                 }}
               >
