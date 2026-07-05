@@ -14,7 +14,6 @@ import { ViewProfit } from "@/components/view-profit";
 export default function Home() {
   const [activeTab, setActiveTab] = useState("overview");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   // Close sidebar on click outside
@@ -34,20 +33,6 @@ export default function Home() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [sidebarCollapsed]);
-
-  // Sync theme with DOM
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
 
   const renderActiveContent = () => {
     switch (activeTab) {
@@ -97,7 +82,7 @@ export default function Home() {
       {/* Main Body - stretches full screen, with left padding safe-zone */}
       <div className="flex-1 flex flex-col min-w-0 relative pl-20">
         {/* Header */}
-        <DashboardHeader theme={theme} toggleTheme={toggleTheme} />
+        <DashboardHeader />
 
         {/* Content Area */}
         <main className="flex-1 overflow-y-auto p-6 pb-24 sm:pb-6 space-y-6">

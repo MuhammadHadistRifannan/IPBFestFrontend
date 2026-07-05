@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, Bell, Sun, Moon, Sparkles, Download, Share2, FileText, CheckCircle2 } from "lucide-react";
+import { Search, Bell, Sun, Moon, Sparkles, Download, Share2, FileText, CheckCircle2, Monitor } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,14 +12,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
+import { useTheme } from "next-themes";
 
-interface HeaderProps {
-  theme: "light" | "dark";
-  toggleTheme: () => void;
-}
+export function DashboardHeader() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-export function DashboardHeader({ theme, toggleTheme }: HeaderProps) {
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = mounted ? theme : "system";
   // Notification Mock Data
   const notifications = [
     { id: 1, type: "system", text: "WhatsApp Rekap berhasil diimpor", time: "5 mnt lalu", unread: true },
@@ -149,18 +158,42 @@ export function DashboardHeader({ theme, toggleTheme }: HeaderProps) {
             <DropdownMenuSeparator className="bg-onyx-100 dark:bg-onyx-800" />
             
             {/* Embedded Theme Toggle */}
-            <DropdownMenuItem
-              onClick={toggleTheme}
-              className="rounded-lg cursor-pointer hover:bg-onyx-50 dark:hover:bg-onyx-900 flex items-center justify-between"
-            >
-              <div className="flex items-center gap-2">
-                {theme === "light" ? <Moon className="h-4 w-4 text-onyx-500" /> : <Sun className="h-4 w-4 text-lemon-400" />}
-                <span>Mode {theme === "light" ? "Gelap" : "Terang"}</span>
-              </div>
-              <span className="text-[10px] text-onyx-400 dark:text-onyx-500 uppercase tracking-wider font-semibold">
-                {theme === "light" ? "Gelap" : "Terang"}
-              </span>
-            </DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="rounded-lg cursor-pointer hover:bg-onyx-50 dark:hover:bg-onyx-900 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {currentTheme === "light" ? (
+                    <Sun className="h-4 w-4 text-amber-500" />
+                  ) : currentTheme === "dark" ? (
+                    <Moon className="h-4 w-4 text-lemon-400" />
+                  ) : (
+                    <Monitor className="h-4 w-4 text-onyx-500 dark:text-onyx-400" />
+                  )}
+                  <span>Tema Tampilan</span>
+                </div>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent alignOffset={-4} className="w-40 rounded-xl border-onyx-200 dark:border-onyx-800 bg-white dark:bg-onyx-950 text-onyx-900 dark:text-white p-1 shadow-md">
+                <DropdownMenuRadioGroup value={currentTheme} onValueChange={(val) => setTheme(val)}>
+                  <DropdownMenuRadioItem value="light" className="rounded-lg cursor-pointer hover:bg-onyx-50 dark:hover:bg-onyx-900 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Sun className="h-3.5 w-3.5" />
+                      <span>Terang</span>
+                    </div>
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="dark" className="rounded-lg cursor-pointer hover:bg-onyx-50 dark:hover:bg-onyx-900 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Moon className="h-3.5 w-3.5" />
+                      <span>Gelap</span>
+                    </div>
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="system" className="rounded-lg cursor-pointer hover:bg-onyx-50 dark:hover:bg-onyx-900 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Monitor className="h-3.5 w-3.5" />
+                      <span>Sistem</span>
+                    </div>
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
 
             <DropdownMenuSeparator className="bg-onyx-100 dark:bg-onyx-800" />
             <DropdownMenuItem className="rounded-lg cursor-pointer hover:bg-onyx-50 dark:hover:bg-onyx-900">
