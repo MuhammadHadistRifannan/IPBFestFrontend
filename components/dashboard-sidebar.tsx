@@ -57,7 +57,7 @@ function SidebarButton({
         e.currentTarget.blur();
       }}
       className={cn(
-        "flex h-12 items-center gap-3 transition-all duration-300 relative group rounded-2xl justify-start pl-[14px]",
+        "flex h-12 items-center gap-3 transition-all duration-300 relative group rounded-2xl justify-start pl-3.5",
         collapsed ? "w-12" : "w-full pr-4 text-sm",
         isActive
           ? "bg-chartreuse-500 text-onyx-950 font-bold"
@@ -81,7 +81,7 @@ function SidebarButton({
           "truncate origin-left",
           collapsed
             ? "max-w-0 opacity-0 pointer-events-none transition-none duration-0"
-            : "max-w-[150px] opacity-100 transition-[max-width,opacity] duration-300"
+            : "max-w-37.5 opacity-100 transition-[max-width,opacity] duration-300"
         )}
       >
         {label}
@@ -176,7 +176,7 @@ export function DashboardSidebar({
             "font-bold text-lg tracking-tight text-onyx-900 dark:text-white truncate origin-left ml-3",
             collapsed
               ? "max-w-0 opacity-0 pointer-events-none transition-none duration-0"
-              : "max-w-[150px] opacity-100 transition-[max-width,opacity] duration-300"
+              : "max-w-37.5 opacity-100 transition-[max-width,opacity] duration-300"
           )}
         >
           EcoStock
