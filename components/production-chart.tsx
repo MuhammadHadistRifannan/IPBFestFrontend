@@ -25,9 +25,6 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
 } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
@@ -119,7 +116,7 @@ export function ProductionChart() {
             value={timeframe}
             onValueChange={(value) => value && setTimeframe(value as "Sen-Min" | "Bulanan")}
           >
-            <SelectTrigger className="w-[120px] h-9 rounded-xl border-onyx-200/60 dark:border-onyx-800 bg-white dark:bg-onyx-950 text-onyx-700 dark:text-onyx-300 text-xs font-semibold focus:ring-chartreuse-500">
+            <SelectTrigger className="w-30 h-9 rounded-xl border-onyx-200/60 dark:border-onyx-800 bg-white dark:bg-onyx-950 text-onyx-700 dark:text-onyx-300 text-xs font-semibold focus:ring-chartreuse-500">
               <SelectValue placeholder="Rentang Waktu" />
             </SelectTrigger>
             <SelectContent className="bg-white dark:bg-onyx-950 border-onyx-200 dark:border-onyx-800 rounded-xl text-onyx-800 dark:text-white">
@@ -160,7 +157,7 @@ export function ProductionChart() {
       </CardHeader>
 
       <CardContent className="flex-1 pb-4">
-        <ChartContainer config={chartConfig} className="w-full aspect-[21/9]">
+        <ChartContainer config={chartConfig} className="w-full aspect-21/9">
           <AreaChart data={activeData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorProduksi" x1="0" y1="0" x2="0" y2="1">

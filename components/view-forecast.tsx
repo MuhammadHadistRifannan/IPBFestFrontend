@@ -7,11 +7,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { TrendingUp, AlertTriangle, Sparkles, RefreshCw, Layers } from "lucide-react";
+import { AlertTriangle, Sparkles, RefreshCw } from "lucide-react";
 import { initialForecastData, ForecastItem } from "@/lib/mock-data";
 
 export function ViewForecast() {
-  const [forecastData, setForecastData] = useState<ForecastItem[]>(initialForecastData);
+  const [forecastData] = useState<ForecastItem[]>(initialForecastData);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleRefresh = () => {
@@ -82,7 +82,7 @@ export function ViewForecast() {
             <Table>
               <TableHeader className="bg-onyx-50/50 dark:bg-onyx-950/30 border-b border-onyx-100 dark:border-onyx-800">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="w-[180px] text-xs font-bold text-onyx-700 dark:text-onyx-300">Nama Produk</TableHead>
+                  <TableHead className="w-45 text-xs font-bold text-onyx-700 dark:text-onyx-300">Nama Produk</TableHead>
                   <TableHead className="text-xs font-bold text-onyx-700 dark:text-onyx-300">Kategori</TableHead>
                   <TableHead className="text-xs font-bold text-onyx-700 dark:text-onyx-300 text-center">Produksi Hari Ini</TableHead>
                   <TableHead className="text-xs font-bold text-onyx-700 dark:text-onyx-300 text-center">Rekomendasi Besok</TableHead>
@@ -100,7 +100,7 @@ export function ViewForecast() {
                       key={item.id}
                       className={`border-b border-onyx-100/50 dark:border-onyx-800/30 last:border-none transition-colors duration-200 ${
                         isDeviation
-                          ? "bg-rose-500/[0.03] dark:bg-rose-500/[0.01] hover:bg-rose-500/[0.05]"
+                          ? "bg-rose-500/3 dark:bg-rose-500/1 hover:bg-rose-500/5"
                           : "hover:bg-onyx-50/30 dark:hover:bg-onyx-800/10"
                       }`}
                     >
@@ -165,7 +165,7 @@ export function ViewForecast() {
       </Card>
 
       {/* Deviation Warning Alert */}
-      <Alert className="border border-rose-500/30 dark:border-rose-500/20 bg-rose-500/5 dark:bg-rose-500/[0.02] rounded-xl flex items-start gap-3 p-4">
+      <Alert className="border border-rose-500/30 dark:border-rose-500/20 bg-rose-500/5 dark:bg-rose-500/2 rounded-xl flex items-start gap-3 p-4">
         <AlertTriangle className="h-5 w-5 text-rose-500 shrink-0 mt-0.5" />
         <div>
           <AlertTitle className="text-xs font-bold text-rose-800 dark:text-rose-400">

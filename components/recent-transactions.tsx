@@ -55,7 +55,7 @@ export function RecentTransactions() {
                         <Icon className="h-4 w-4" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-semibold text-onyx-900 dark:text-white truncate max-w-[140px] sm:max-w-[200px]">
+                        <p className="text-xs font-semibold text-onyx-900 dark:text-white truncate max-w-35 sm:max-w-50">
                           {tx.activity}
                         </p>
                         <span className="text-[10px] text-onyx-400 dark:text-onyx-500">

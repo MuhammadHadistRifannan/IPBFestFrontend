@@ -3,11 +3,9 @@
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Trash2, Sparkles, AlertTriangle, TrendingDown } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Trash2, Sparkles } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { initialWasteData, WasteItem } from "@/lib/mock-data";
 
@@ -30,7 +28,7 @@ const monthlyWasteData = [
 ];
 
 export function ViewWaste() {
-  const [wasteList, setWasteList] = useState<WasteItem[]>(initialWasteData);
+  const [wasteList] = useState<WasteItem[]>(initialWasteData);
   const [timeframe, setTimeframe] = useState<"Harian" | "Mingguan">("Harian");
 
   const activeChartData = timeframe === "Harian" ? weeklyWasteData : monthlyWasteData;
@@ -141,32 +139,30 @@ export function ViewWaste() {
           </CardHeader>
           <CardContent className="flex-1 pb-4">
             <ChartContainer config={chartConfig} className="w-full aspect-[21/9]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={activeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis
-                    dataKey="name"
-                    axisLine={false}
-                    tickLine={false}
-                    tickMargin={10}
-                    className="text-onyx-400 dark:text-onyx-500"
-                  />
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tickMargin={10}
-                    tickFormatter={(value) => `${value} Pcs`}
-                    className="text-onyx-400 dark:text-onyx-500"
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar
-                    dataKey="Sisa"
-                    fill="var(--color-toffee-600)"
-                    radius={[4, 4, 0, 0]}
-                    maxBarSize={28}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+              <BarChart data={activeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  className="text-onyx-400 dark:text-onyx-500"
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  tickFormatter={(value) => `${value} Pcs`}
+                  className="text-onyx-400 dark:text-onyx-500"
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar
+                  dataKey="Sisa"
+                  fill="var(--color-toffee-600)"
+                  radius={[4, 4, 0, 0]}
+                  maxBarSize={28}
+                />
+              </BarChart>
             </ChartContainer>
           </CardContent>
         </Card>

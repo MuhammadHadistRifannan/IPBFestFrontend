@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DollarSign, Sparkles, TrendingUp, Calendar, ArrowUpRight } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { DollarSign, Sparkles, Calendar, ArrowUpRight } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { initialSalesData, SalesItem } from "@/lib/mock-data";
 
@@ -29,7 +27,7 @@ const weeklySalesData = [
 ];
 
 export function ViewSales() {
-  const [salesList, setSalesList] = useState<SalesItem[]>(initialSalesData);
+  const [salesList] = useState<SalesItem[]>(initialSalesData);
   const [timeframe, setTimeframe] = useState<"Harian" | "Mingguan">("Harian");
 
   const activeChartData = timeframe === "Harian" ? dailySalesData : weeklySalesData;
@@ -129,40 +127,38 @@ export function ViewSales() {
           </CardHeader>
           <CardContent className="flex-1 pb-4">
             <ChartContainer config={chartConfig} className="w-full aspect-[21/9]">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={activeChartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="var(--color-chartreuse-500)" stopOpacity={0.25} />
-                      <stop offset="95%" stopColor="var(--color-chartreuse-500)" stopOpacity={0.0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis
-                    dataKey="name"
-                    axisLine={false}
-                    tickLine={false}
-                    tickMargin={10}
-                    className="text-onyx-400 dark:text-onyx-500"
-                  />
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tickMargin={10}
-                    tickFormatter={(value) => `Rp${value / 1000000} Jt`}
-                    className="text-onyx-400 dark:text-onyx-500"
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Area
-                    type="monotone"
-                    dataKey="Penjualan"
-                    stroke="var(--color-chartreuse-500)"
-                    strokeWidth={3}
-                    fillOpacity={1}
-                    fill="url(#colorSales)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+              <AreaChart data={activeChartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--color-chartreuse-500)" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="var(--color-chartreuse-500)" stopOpacity={0.0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  className="text-onyx-400 dark:text-onyx-500"
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  tickFormatter={(value) => `Rp${value / 1000000} Jt`}
+                  className="text-onyx-400 dark:text-onyx-500"
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Area
+                  type="monotone"
+                  dataKey="Penjualan"
+                  stroke="var(--color-chartreuse-500)"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorSales)"
+                />
+              </AreaChart>
             </ChartContainer>
           </CardContent>
         </Card>

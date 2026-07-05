@@ -30,6 +30,69 @@ interface SidebarProps {
   setCollapsed: (collapsed: boolean) => void;
 }
 
+interface SidebarButtonProps {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  isActive: boolean;
+  collapsed: boolean;
+  onClick: () => void;
+}
+
+function SidebarButton({
+  id,
+  label,
+  icon: Icon,
+  isActive,
+  collapsed,
+  onClick,
+}: SidebarButtonProps) {
+  const isLogout = id === "logout";
+
+  const buttonContent = (
+    <button
+      onClick={onClick}
+      className={cn(
+        "flex w-full items-center transition-all duration-300 ease-out cursor-pointer relative group rounded-xl",
+        collapsed ? "h-12 justify-center" : "gap-3 px-4 py-3.5 text-sm",
+        isActive
+          ? "bg-chartreuse-500 text-onyx-950 font-bold"
+          : isLogout
+          ? "text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20"
+          : "text-onyx-600 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
+      )}
+    >
+      <Icon
+        className={cn(
+          "h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105",
+          isActive
+            ? "text-onyx-950"
+            : isLogout
+            ? "text-rose-500"
+            : "text-onyx-400 dark:text-onyx-505"
+        )}
+      />
+      {!collapsed && <span className="truncate">{label}</span>}
+    </button>
+  );
+
+  if (collapsed) {
+    return (
+      <Tooltip>
+        <TooltipTrigger render={buttonContent} />
+        <TooltipContent
+          side="right"
+          className="bg-onyx-900 dark:bg-white text-white dark:text-onyx-950 border-none font-medium"
+        >
+          {label}
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return buttonContent;
+}
+
 export function DashboardSidebar({
   activeTab,
   setActiveTab,
@@ -54,156 +117,87 @@ export function DashboardSidebar({
   return (
     <aside
       className={cn(
-        "hidden sm:flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30",
+        "hidden sm:flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30 py-5",
         collapsed ? "w-20" : "w-64"
       )}
     >
       {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-onyx-200/50 dark:border-onyx-800">
-        <div className="flex items-center gap-2 overflow-hidden">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-chartreuse-500 text-onyx-950 shadow-lg shadow-chartreuse-500/20 font-bold transition-transform hover:scale-105 duration-300">
+      <div className={cn("h-12 flex items-center shrink-0 relative", collapsed ? "justify-center px-0" : "justify-start px-4 gap-3")}>
+        {collapsed ? (
+          // Collapsed state: Logo morphs into ChevronRight on hover
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold transition-all duration-300 group/logo-btn cursor-pointer hover:bg-chartreuse-600"
+          >
+            {/* Leaf Icon (default state) */}
+            <Leaf className="h-5 w-5 absolute transition-all duration-300 group-hover/logo-btn:opacity-0 group-hover/logo-btn:scale-75 group-hover/logo-btn:rotate-90" />
+            
+            {/* Chevron Icon (hover state) */}
+            <ChevronRight className="h-5 w-5 absolute opacity-0 scale-75 transition-all duration-300 group-hover/logo-btn:opacity-100 group-hover/logo-btn:scale-100" />
+          </button>
+        ) : (
+          // Expanded state: Static logo
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold">
             <Leaf className="h-5 w-5" />
           </div>
-          {!collapsed && (
-            <span className="font-bold text-lg tracking-tight text-onyx-900 dark:text-white transition-opacity duration-300">
-              EcoStock
-            </span>
+        )}
+
+        {/* Brand Text: Always mounted, transitions smoothly when opening, but disappears instantly when closing */}
+        <span
+          className={cn(
+            "font-bold text-lg tracking-tight text-onyx-900 dark:text-white truncate origin-left",
+            collapsed ? "max-w-0 opacity-0 pointer-events-none transition-none duration-0" : "max-w-[150px] opacity-100 transition-all duration-300"
           )}
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setCollapsed(!collapsed)}
-          className="absolute -right-3 top-7 h-6 w-6 rounded-full border border-onyx-200 bg-white dark:bg-onyx-900 dark:border-onyx-800 text-onyx-600 dark:text-onyx-300 shadow-md hover:bg-onyx-50 dark:hover:bg-onyx-800 z-40 shrink-0"
         >
-          {collapsed ? (
-            <ChevronRight className="h-3 w-3" />
-          ) : (
+          EcoStock
+        </span>
+
+        {/* Floating close button at the right edge when expanded */}
+        {!collapsed && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setCollapsed(!collapsed)}
+            className="absolute -right-3 top-3 h-6 w-6 rounded-full border border-onyx-200 bg-white dark:bg-onyx-900 dark:border-onyx-800 text-onyx-600 dark:text-onyx-300 shadow-md hover:bg-onyx-50 dark:hover:bg-onyx-900/50 z-40 shrink-0"
+          >
             <ChevronLeft className="h-3 w-3" />
-          )}
-        </Button>
+          </Button>
+        )}
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 py-6 px-3 flex flex-col gap-2.5">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-
-          if (collapsed) {
-            return (
-              <Tooltip key={item.id}>
-                <TooltipTrigger
-                  render={
-                    <button
-                      onClick={() => setActiveTab(item.id)}
-                      className={cn(
-                        "flex h-12 w-full items-center justify-center rounded-xl transition-all duration-300 ease-out relative group cursor-pointer",
-                        isActive
-                          ? "bg-chartreuse-500 text-onyx-950 font-bold"
-                          : "text-onyx-500 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
-                      )}
-                    >
-                      <Icon className="h-5 w-5 shrink-0" />
-                    </button>
-                  }
-                />
-                <TooltipContent side="right" className="bg-onyx-900 dark:bg-white text-white dark:text-onyx-950 border-none font-medium">
-                  {item.label}
-                </TooltipContent>
-              </Tooltip>
-            );
-          }
-
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={cn(
-                "flex w-full items-center gap-3 px-4 py-3.5 rounded-xl text-sm transition-all duration-300 ease-out cursor-pointer relative group",
-                isActive
-                  ? "bg-chartreuse-500 text-onyx-950 font-bold"
-                  : "text-onyx-600 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
-              )}
-            >
-              <Icon
-                className={cn(
-                  "h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105",
-                  isActive
-                    ? "text-onyx-950"
-                    : "text-onyx-400 dark:text-onyx-500"
-                )}
-              />
-              <span className="truncate">{item.label}</span>
-            </button>
-          );
-        })}
+      <nav className={cn(
+        "flex-1 flex flex-col gap-2.5 px-3 overflow-y-auto no-scrollbar",
+        collapsed ? "justify-center" : "pt-8 pb-4"
+      )}>
+        {menuItems.map((item) => (
+          <SidebarButton
+            key={item.id}
+            id={item.id}
+            label={item.label}
+            icon={item.icon}
+            isActive={activeTab === item.id}
+            collapsed={collapsed}
+            onClick={() => setActiveTab(item.id)}
+          />
+        ))}
       </nav>
 
       {/* Bottom Actions */}
-      <div className="py-6 px-3 border-t border-plum-900/30 dark:border-plum-900/30 flex flex-col gap-2.5">
-        {bottomItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-
-          if (collapsed) {
-            return (
-              <Tooltip key={item.id}>
-                <TooltipTrigger
-                  render={
-                    <button
-                      onClick={() => {
-                        if (item.id !== "logout") setActiveTab(item.id);
-                      }}
-                      className={cn(
-                        "flex h-12 w-full items-center justify-center rounded-xl transition-all duration-300 ease-out relative cursor-pointer",
-                        isActive
-                          ? "bg-chartreuse-500 text-onyx-950 font-bold"
-                          : item.id === "logout"
-                          ? "text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20"
-                          : "text-onyx-500 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
-                      )}
-                    >
-                      <Icon className="h-5 w-5 shrink-0" />
-                    </button>
-                  }
-                />
-                <TooltipContent side="right" className="bg-onyx-900 dark:bg-white text-white dark:text-onyx-950 border-none font-medium">
-                  {item.label}
-                </TooltipContent>
-              </Tooltip>
-            );
-          }
-
-          return (
-            <button
-              key={item.id}
-              onClick={() => {
-                if (item.id !== "logout") setActiveTab(item.id);
-              }}
-              className={cn(
-                "flex w-full items-center gap-3 px-4 py-3.5 rounded-xl text-sm transition-all duration-300 ease-out cursor-pointer relative group",
-                isActive
-                  ? "bg-chartreuse-500 text-onyx-950 font-bold"
-                  : item.id === "logout"
-                  ? "text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/20"
-                  : "text-onyx-600 dark:text-onyx-400 hover:bg-onyx-50 dark:hover:bg-onyx-900/50 hover:text-onyx-900 dark:hover:text-white"
-              )}
-            >
-              <Icon
-                className={cn(
-                  "h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105",
-                  isActive
-                    ? "text-onyx-950"
-                    : item.id === "logout"
-                    ? "text-rose-500"
-                    : "text-onyx-400 dark:text-onyx-500"
-                )}
-              />
-              <span className="truncate">{item.label}</span>
-            </button>
-          );
-        })}
+      <div className="pt-4 px-3 flex flex-col gap-2.5 shrink-0">
+        {bottomItems.map((item) => (
+          <SidebarButton
+            key={item.id}
+            id={item.id}
+            label={item.label}
+            icon={item.icon}
+            isActive={activeTab === item.id}
+            collapsed={collapsed}
+            onClick={() => {
+              if (item.id !== "logout") setActiveTab(item.id);
+            }}
+          />
+        ))}
       </div>
     </aside>
   );

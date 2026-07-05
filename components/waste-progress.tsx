@@ -63,7 +63,7 @@ export function WasteProgress() {
 
       <CardContent className="flex-1 flex flex-col justify-between py-4 space-y-6">
         <div className="space-y-4">
-          {initialWasteData.map((item, index) => (
+          {initialWasteData.map((item) => (
             <div key={item.id} className="space-y-2">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-semibold text-onyx-700 dark:text-onyx-300">

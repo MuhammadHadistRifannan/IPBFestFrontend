@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, Bell, HelpCircle, Sun, Moon, Sparkles, Download, Share2, FileText, Mail, CheckCircle2 } from "lucide-react";
+import React from "react";
+import { Search, Bell, Sun, Moon, Sparkles, Download, Share2, FileText, CheckCircle2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -99,7 +99,7 @@ export function DashboardHeader({ theme, toggleTheme }: HeaderProps) {
                   key={n.id}
                   className={`p-2 rounded-lg flex gap-2.5 items-start transition-colors cursor-pointer text-xs ${
                     n.unread
-                      ? "bg-chartreuse-500/5 dark:bg-chartreuse-500/[0.02]"
+                      ? "bg-chartreuse-500/5 dark:bg-chartreuse-500/2"
                       : "hover:bg-onyx-50 dark:hover:bg-onyx-900"
                   }`}
                 >

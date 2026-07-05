@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PiggyBank, Sparkles, ArrowUpRight, ArrowDownRight, Cake, Coffee, ShoppingBag } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 // Monthly Profit Trend data
@@ -33,9 +31,6 @@ interface CategoryProfit {
 }
 
 export function ViewProfit() {
-  const [timeframe, setTimeframe] = useState<"Bulanan">("Bulanan");
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
-
   const categories: CategoryProfit[] = [
     {
       id: "cat-1",
@@ -168,42 +163,40 @@ export function ViewProfit() {
           </CardHeader>
           <CardContent className="flex-1 pb-4">
             <ChartContainer config={chartConfig} className="w-full aspect-[21/9]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={monthlyProfitData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis
-                    dataKey="name"
-                    axisLine={false}
-                    tickLine={false}
-                    tickMargin={10}
-                    className="text-onyx-400 dark:text-onyx-500"
-                  />
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tickMargin={10}
-                    tickFormatter={(value) => `Rp${value} Jt`}
-                    className="text-onyx-400 dark:text-onyx-500"
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line
-                    type="monotone"
-                    dataKey="Omzet"
-                    name="Omzet"
-                    stroke="var(--color-toffee-600)"
-                    strokeWidth={3}
-                    dot={{ r: 4 }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="Keuntungan"
-                    name="Keuntungan Bersih"
-                    stroke="var(--color-chartreuse-500)"
-                    strokeWidth={3}
-                    dot={{ r: 4 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <LineChart data={monthlyProfitData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  className="text-onyx-400 dark:text-onyx-500"
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  tickFormatter={(value) => `Rp${value} Jt`}
+                  className="text-onyx-400 dark:text-onyx-500"
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Line
+                  type="monotone"
+                  dataKey="Omzet"
+                  name="Omzet"
+                  stroke="var(--color-toffee-600)"
+                  strokeWidth={3}
+                  dot={{ r: 4 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="Keuntungan"
+                  name="Keuntungan Bersih"
+                  stroke="var(--color-chartreuse-500)"
+                  strokeWidth={3}
+                  dot={{ r: 4 }}
+                />
+              </LineChart>
             </ChartContainer>
           </CardContent>
         </Card>
@@ -219,7 +212,7 @@ export function ViewProfit() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 space-y-4">
-            {categories.map((cat, index) => {
+            {categories.map((cat) => {
               const Icon = cat.icon;
               return (
                 <div
@@ -247,7 +240,7 @@ export function ViewProfit() {
             <div className="mt-4 p-3 rounded-xl bg-chartreuse-500/5 border border-chartreuse-500/10 flex gap-2">
               <Sparkles className="h-4 w-4 text-chartreuse-600 dark:text-chartreuse-400 shrink-0 mt-0.5" />
               <p className="text-[10px] text-onyx-500 dark:text-onyx-400 leading-relaxed">
-                Kopi & Teh menghasilkan margin tertinggi (82%). Promosikan paket bundel "Roti + Kopi" di jam sarapan untuk melipatgandakan profit kategori Roti.
+                Kopi &amp; Teh menghasilkan margin tertinggi (82%). Promosikan paket bundel &quot;Roti + Kopi&quot; di jam sarapan untuk melipatgandakan profit kategori Roti.
               </p>
             </div>
           </CardContent>
