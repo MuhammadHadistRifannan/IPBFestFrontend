@@ -136,11 +136,18 @@ export function DashboardSidebar({
       <div className="h-12 flex items-center shrink-0 relative justify-start">
         {/* Unified Logo/Toggle button - preserves DOM node identity for smooth transitions */}
         <button
-          onClick={(e) => {
-            setCollapsed(!collapsed);
-            e.currentTarget.blur();
-          }}
-          className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold transition-all duration-300 group/logo-btn cursor-pointer hover:bg-chartreuse-600"
+          onClick={
+            collapsed
+              ? (e) => {
+                  setCollapsed(false);
+                  e.currentTarget.blur();
+                }
+              : undefined
+          }
+          className={cn(
+            "relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold transition-all duration-300 group/logo-btn",
+            collapsed ? "cursor-pointer hover:bg-chartreuse-600" : "cursor-default"
+          )}
         >
           {/* Leaf Icon - morphs only when collapsed */}
           <Leaf
