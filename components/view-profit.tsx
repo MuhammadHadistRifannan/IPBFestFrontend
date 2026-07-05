@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Sparkles, ArrowUpRight, ArrowDownRight, Cake, Coffee, ShoppingBag } from "lucide-react";
+import { Sparkles, ArrowUpRight, ArrowDownRight, Cake, Coffee, ShoppingBag } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
@@ -52,8 +52,7 @@ export function ViewProfit() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <TrendingUp className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
-            Laporan Keuntungan (Profit)
+            Laporan Keuntungan
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
             Pantau rincian margin, omzet kotor, dan profit bersih toko makanan Anda.

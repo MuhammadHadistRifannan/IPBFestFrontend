@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Trash2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { initialWasteData, WasteItem } from "@/lib/mock-data";
@@ -62,8 +62,7 @@ export function ViewWaste() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <Trash2 className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
-            Analisis Sisa Produk (Waste)
+            Analisis Sisa Produk
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
             Pantau tingkat sisa adonan/makanan dan tekan potensi kerugian finansial Anda.

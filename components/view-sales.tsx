@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DollarSign, Sparkles, Calendar, ArrowUpRight } from "lucide-react";
+import { Sparkles, Calendar, ArrowUpRight } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { initialSalesData, SalesItem } from "@/lib/mock-data";
@@ -45,8 +45,7 @@ export function ViewSales() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <DollarSign className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
-            Analisis Penjualan (Sales)
+            Analisis Penjualan
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
             Pantau pertumbuhan penjualan, produk terlaris, dan puncak permintaan pasar.

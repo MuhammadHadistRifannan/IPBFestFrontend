@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Package, Search, Plus, Trash2, Edit2, Check, X, AlertTriangle } from "lucide-react";
+import { Search, Plus, Trash2, Edit2, Check, X, AlertTriangle } from "lucide-react";
 import { initialProducts, Product } from "@/lib/mock-data";
 
 export function ViewProduct() {
@@ -108,7 +108,6 @@ export function ViewProduct() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <Package className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
             Kelola Master Produk
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">

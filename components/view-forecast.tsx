@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertTriangle, Sparkles, RefreshCw } from "lucide-react";
+import { AlertTriangle, RefreshCw } from "lucide-react";
 import { initialForecastData, ForecastItem } from "@/lib/mock-data";
 
 export function ViewForecast() {
@@ -27,7 +27,6 @@ export function ViewForecast() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
             Prediksi & Rekomendasi AI
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
