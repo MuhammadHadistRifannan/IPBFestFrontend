@@ -108,7 +108,7 @@ export function ViewProduct() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <Package className="h-6 w-6 text-chartreuse-600 dark:text-chartreuse-400" />
+            <Package className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
             Kelola Master Produk
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">

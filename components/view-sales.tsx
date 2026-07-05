@@ -45,7 +45,7 @@ export function ViewSales() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <DollarSign className="h-6 w-6 text-chartreuse-500" />
+            <DollarSign className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
             Analisis Penjualan (Sales)
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
@@ -126,7 +126,7 @@ export function ViewSales() {
             </Select>
           </CardHeader>
           <CardContent className="flex-1 pb-4">
-            <ChartContainer config={chartConfig} className="w-full aspect-[21/9]">
+            <ChartContainer config={chartConfig} className="w-full aspect-[21/9] min-h-[200px]">
               <AreaChart data={activeChartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">

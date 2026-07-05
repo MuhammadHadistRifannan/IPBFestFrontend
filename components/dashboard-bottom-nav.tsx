@@ -8,12 +8,12 @@ import {
   Trash2,
   DollarSign,
   Package,
-  PiggyBank,
   Settings,
   HelpCircle,
   LogOut,
   MoreHorizontal,
   Leaf,
+  Sparkles,
 } from "lucide-react";
 import {
   Sheet,
@@ -33,14 +33,14 @@ export function DashboardBottomNav({ activeTab, setActiveTab }: BottomNavProps) 
 
   const mainItems = [
     { id: "overview", label: "Ringkasan", icon: LayoutDashboard },
-    { id: "forecast", label: "Prediksi AI", icon: TrendingUp },
+    { id: "forecast", label: "Prediksi AI", icon: Sparkles },
     { id: "waste", label: "Sisa Produk", icon: Trash2 },
     { id: "sales", label: "Penjualan", icon: DollarSign },
   ];
 
   const moreItems = [
     { id: "product", label: "Kelola Produk", icon: Package },
-    { id: "profit", label: "Keuntungan", icon: PiggyBank },
+    { id: "profit", label: "Keuntungan", icon: TrendingUp },
     { id: "settings", label: "Pengaturan", icon: Settings },
     { id: "help", label: "Bantuan", icon: HelpCircle },
   ];
@@ -62,14 +62,14 @@ export function DashboardBottomNav({ activeTab, setActiveTab }: BottomNavProps) 
             onClick={() => handleTabClick(item.id)}
             className={cn(
               "flex flex-col items-center justify-center rounded-xl transition-all duration-300 ease-out cursor-pointer",
-              "w-12 h-12 min-w-[44px] min-h-[44px]", // Tap target compliance
+              "w-12 h-12 min-w-11 min-h-11", // Tap target compliance
               isActive
                 ? "bg-chartreuse-500 text-onyx-950 font-bold"
                 : "text-onyx-600 dark:text-onyx-400 hover:text-onyx-900 dark:hover:text-white"
             )}
           >
             <Icon className="h-5 w-5" />
-            <span className="text-[9px] mt-0.5 font-medium truncate max-w-[56px]">
+            <span className="text-[9px] mt-0.5 font-medium truncate max-w-14">
               {item.label}
             </span>
           </button>
@@ -83,7 +83,7 @@ export function DashboardBottomNav({ activeTab, setActiveTab }: BottomNavProps) 
             <button
               className={cn(
                 "flex flex-col items-center justify-center rounded-xl transition-all duration-300 ease-out cursor-pointer",
-                "w-12 h-12 min-w-[44px] min-h-[44px]", // Tap target compliance
+                "w-12 h-12 min-w-11 min-h-11", // Tap target compliance
                 ["product", "profit", "settings", "help"].includes(activeTab)
                   ? "bg-chartreuse-500 text-onyx-950 font-bold"
                   : "text-onyx-600 dark:text-onyx-400 hover:text-onyx-900 dark:hover:text-white"

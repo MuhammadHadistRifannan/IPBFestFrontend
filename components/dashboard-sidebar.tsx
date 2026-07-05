@@ -8,13 +8,13 @@ import {
   Trash2,
   DollarSign,
   Package,
-  PiggyBank,
   Settings,
   HelpCircle,
   LogOut,
   ChevronLeft,
   ChevronRight,
   Leaf,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -112,11 +112,11 @@ export function DashboardSidebar({
 }: SidebarProps) {
   const menuItems = [
     { id: "overview", label: "Ringkasan", icon: LayoutDashboard },
-    { id: "forecast", label: "Prediksi AI", icon: TrendingUp },
+    { id: "forecast", label: "Prediksi AI", icon: Sparkles },
     { id: "waste", label: "Sisa Produk", icon: Trash2 },
     { id: "sales", label: "Penjualan", icon: DollarSign },
     { id: "product", label: "Kelola Produk", icon: Package },
-    { id: "profit", label: "Keuntungan", icon: PiggyBank },
+    { id: "profit", label: "Keuntungan", icon: TrendingUp },
   ];
 
   const bottomItems = [

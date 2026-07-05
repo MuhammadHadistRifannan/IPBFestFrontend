@@ -62,7 +62,7 @@ export function ViewWaste() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <Trash2 className="h-6 w-6 text-toffee-600" />
+            <Trash2 className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
             Analisis Sisa Produk (Waste)
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
@@ -90,7 +90,7 @@ export function ViewWaste() {
         </Card>
 
         {/* Global AI Suggestion Box */}
-        <Card className="border border-chartreuse-500/20 dark:border-chartreuse-500/10 bg-chartreuse-500/5 dark:bg-chartreuse-500/[0.02] rounded-2xl md:col-span-2 flex items-center">
+        <Card className="border border-chartreuse-500/20 dark:border-chartreuse-500/10 bg-chartreuse-500/5 dark:bg-chartreuse-500/2 rounded-2xl md:col-span-2 flex items-center">
           <CardContent className="p-5 flex gap-4">
             <div className="h-10 w-10 rounded-xl bg-chartreuse-500/10 flex items-center justify-center shrink-0 text-chartreuse-600 dark:text-chartreuse-400">
               <Sparkles className="h-5 w-5" />
@@ -124,7 +124,7 @@ export function ViewWaste() {
               value={timeframe}
               onValueChange={(value) => value && setTimeframe(value as "Harian" | "Mingguan")}
             >
-              <SelectTrigger className="w-[120px] h-9 rounded-xl border-onyx-200/60 dark:border-onyx-800 bg-white dark:bg-onyx-950 text-onyx-700 dark:text-onyx-300 text-xs font-semibold focus:ring-chartreuse-500">
+              <SelectTrigger className="w-30 h-9 rounded-xl border-onyx-200/60 dark:border-onyx-800 bg-white dark:bg-onyx-950 text-onyx-700 dark:text-onyx-300 text-xs font-semibold focus:ring-chartreuse-500">
                 <SelectValue placeholder="Rentang Waktu" />
               </SelectTrigger>
               <SelectContent className="bg-white dark:bg-onyx-950 border-onyx-200 dark:border-onyx-800 rounded-xl text-onyx-800 dark:text-white">
@@ -138,7 +138,7 @@ export function ViewWaste() {
             </Select>
           </CardHeader>
           <CardContent className="flex-1 pb-4">
-            <ChartContainer config={chartConfig} className="w-full aspect-[21/9]">
+            <ChartContainer config={chartConfig} className="w-full aspect-21/9 min-h-50">
               <BarChart data={activeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -191,7 +191,7 @@ export function ViewWaste() {
                     {index + 1}
                   </span>
                   <div>
-                    <h4 className="text-xs font-bold text-onyx-900 dark:text-white truncate max-w-[120px]">{item.name}</h4>
+                    <h4 className="text-xs font-bold text-onyx-900 dark:text-white truncate max-w-30">{item.name}</h4>
                     <span className="text-[10px] text-onyx-400 dark:text-onyx-500">{item.wastePercentage}% Rasio Sisa ({item.wasteQty} Pcs)</span>
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export function ViewWaste() {
             <Table>
               <TableHeader className="bg-onyx-50/50 dark:bg-onyx-950/30 border-b border-onyx-100 dark:border-onyx-800">
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="w-[180px] text-xs font-bold text-onyx-700 dark:text-onyx-300">Nama Produk</TableHead>
+                  <TableHead className="w-45 text-xs font-bold text-onyx-700 dark:text-onyx-300">Nama Produk</TableHead>
                   <TableHead className="text-xs font-bold text-onyx-700 dark:text-onyx-300 text-center">Harga Jual</TableHead>
                   <TableHead className="text-xs font-bold text-onyx-700 dark:text-onyx-300 text-center">Rasio Sisa</TableHead>
                   <TableHead className="text-xs font-bold text-onyx-700 dark:text-onyx-300 text-center">Qty Sisa</TableHead>

@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { PiggyBank, Sparkles, ArrowUpRight, ArrowDownRight, Cake, Coffee, ShoppingBag } from "lucide-react";
+import { TrendingUp, Sparkles, ArrowUpRight, ArrowDownRight, Cake, Coffee, ShoppingBag } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
@@ -25,48 +25,16 @@ interface CategoryProfit {
   profit: string;
   margin: string;
   growth: string;
-  isPositive: boolean;
-  colorClass: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
-export function ViewProfit() {
-  const categories: CategoryProfit[] = [
-    {
-      id: "cat-1",
-      name: "Roti & Kue",
-      type: "Sumbangsih Utama",
-      profit: "Rp32,5 Jt",
-      margin: "64%",
-      growth: "+14.2%",
-      isPositive: true,
-      colorClass: "var(--color-plum-900)",
-      icon: Cake,
-    },
-    {
-      id: "cat-2",
-      name: "Kopi & Teh",
-      type: "Sumbangsih Stabil",
-      profit: "Rp18,4 Jt",
-      margin: "82%",
-      growth: "+8.6%",
-      isPositive: true,
-      colorClass: "var(--color-toffee-600)",
-      icon: Coffee,
-    },
-    {
-      id: "cat-3",
-      name: "Dessert & Camilan",
-      type: "Pertumbuhan Cepat",
-      profit: "Rp28,4 Jt",
-      margin: "38%",
-      growth: "+22.4%",
-      isPositive: true,
-      colorClass: "var(--color-chartreuse-500)",
-      icon: ShoppingBag,
-    },
-  ];
+const categories: CategoryProfit[] = [
+  { id: "bread", name: "Roti & Kering", type: "bread", profit: "Rp28,4 Jt", margin: "64%", growth: "+8.3%", icon: Cake },
+  { id: "coffee", name: "Kopi & Teh", type: "coffee", profit: "Rp18,2 Jt", margin: "82%", growth: "+15.4%", icon: Coffee },
+  { id: "packaged", name: "Makanan Ringan", type: "packaged", profit: "Rp7,5 Jt", margin: "45%", growth: "-2.1%", icon: ShoppingBag },
+];
 
+export function ViewProfit() {
   const chartConfig = {
     Omzet: {
       label: "Omzet (Jt Rp)",
@@ -84,7 +52,7 @@ export function ViewProfit() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white flex items-center gap-2">
-            <PiggyBank className="h-6 w-6 text-chartreuse-600 dark:text-chartreuse-400" />
+            <TrendingUp className="h-6 w-6 text-toffee-600 dark:text-toffee-400" />
             Laporan Keuntungan (Profit)
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
@@ -162,7 +130,7 @@ export function ViewProfit() {
             </div>
           </CardHeader>
           <CardContent className="flex-1 pb-4">
-            <ChartContainer config={chartConfig} className="w-full aspect-[21/9]">
+            <ChartContainer config={chartConfig} className="w-full aspect-[21/9] min-h-[200px]">
               <LineChart data={monthlyProfitData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
