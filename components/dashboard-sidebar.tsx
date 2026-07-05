@@ -48,13 +48,17 @@ function SidebarButton({
   onClick,
 }: SidebarButtonProps) {
   const isLogout = id === "logout";
+  const [open, setOpen] = React.useState(false);
 
-  const buttonContent = (
+  const buttonEl = (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        onClick();
+        e.currentTarget.blur();
+      }}
       className={cn(
-        "flex w-full items-center transition-all duration-300 ease-out cursor-pointer relative group rounded-xl",
-        collapsed ? "h-12 justify-center" : "gap-3 px-4 py-3.5 text-sm",
+        "flex h-12 items-center transition-all duration-300 relative group rounded-2xl overflow-hidden justify-start pl-[14px]",
+        collapsed ? "w-12" : "w-full pr-4 text-sm",
         isActive
           ? "bg-chartreuse-500 text-onyx-950 font-bold"
           : isLogout
@@ -69,28 +73,35 @@ function SidebarButton({
             ? "text-onyx-950"
             : isLogout
             ? "text-rose-500"
-            : "text-onyx-400 dark:text-onyx-505"
+            : "text-onyx-400 dark:text-onyx-500"
         )}
       />
-      {!collapsed && <span className="truncate">{label}</span>}
+      <span
+        className={cn(
+          "truncate origin-left",
+          collapsed
+            ? "max-w-0 opacity-0 ml-0 pointer-events-none transition-none duration-0"
+            : "max-w-[150px] opacity-100 ml-3 transition-all duration-300"
+        )}
+      >
+        {label}
+      </span>
     </button>
   );
 
-  if (collapsed) {
-    return (
-      <Tooltip>
-        <TooltipTrigger render={buttonContent} />
+  return (
+    <Tooltip open={collapsed ? open : false} onOpenChange={setOpen}>
+      <TooltipTrigger render={buttonEl} />
+      {collapsed && (
         <TooltipContent
           side="right"
-          className="bg-onyx-900 dark:bg-white text-white dark:text-onyx-950 border-none font-medium"
+          className="bg-onyx-900 dark:bg-white text-white dark:text-onyx-950 border-none font-medium text-xs"
         >
           {label}
         </TooltipContent>
-      </Tooltip>
-    );
-  }
-
-  return buttonContent;
+      )}
+    </Tooltip>
+  );
 }
 
 export function DashboardSidebar({
@@ -117,59 +128,74 @@ export function DashboardSidebar({
   return (
     <aside
       className={cn(
-        "hidden sm:flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30 py-5",
-        collapsed ? "w-20" : "w-64"
+        "hidden sm:flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30 py-5 h-full pl-4 pr-3",
+        collapsed ? "w-20 shadow-none" : "w-64 shadow-2xl"
       )}
     >
       {/* Brand Header */}
-      <div className={cn("h-12 flex items-center shrink-0 relative", collapsed ? "justify-center px-0" : "justify-start px-4 gap-3")}>
-        {collapsed ? (
-          // Collapsed state: Logo morphs into ChevronRight on hover
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold transition-all duration-300 group/logo-btn cursor-pointer hover:bg-chartreuse-600"
-          >
-            {/* Leaf Icon (default state) */}
-            <Leaf className="h-5 w-5 absolute transition-all duration-300 group-hover/logo-btn:opacity-0 group-hover/logo-btn:scale-75 group-hover/logo-btn:rotate-90" />
-            
-            {/* Chevron Icon (hover state) */}
-            <ChevronRight className="h-5 w-5 absolute opacity-0 scale-75 transition-all duration-300 group-hover/logo-btn:opacity-100 group-hover/logo-btn:scale-100" />
-          </button>
-        ) : (
-          // Expanded state: Static logo
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold">
-            <Leaf className="h-5 w-5" />
-          </div>
-        )}
+      <div className="h-12 flex items-center shrink-0 relative justify-start">
+        {/* Unified Logo/Toggle button - preserves DOM node identity for smooth transitions */}
+        <button
+          onClick={(e) => {
+            setCollapsed(!collapsed);
+            e.currentTarget.blur();
+          }}
+          className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold transition-all duration-300 group/logo-btn cursor-pointer hover:bg-chartreuse-600"
+        >
+          {/* Leaf Icon - morphs only when collapsed */}
+          <Leaf
+            className={cn(
+              "h-5 w-5 absolute transition-all duration-300",
+              collapsed
+                ? "group-hover/logo-btn:opacity-0 group-hover/logo-btn:scale-75 group-hover/logo-btn:rotate-90"
+                : "opacity-100 scale-100 rotate-0"
+            )}
+          />
+          
+          {/* Chevron Icon - morphs only when collapsed */}
+          <ChevronRight
+            className={cn(
+              "h-5 w-5 absolute transition-all duration-300",
+              collapsed
+                ? "opacity-0 scale-75 group-hover/logo-btn:opacity-100 group-hover/logo-btn:scale-100"
+                : "opacity-0 scale-75 pointer-events-none"
+            )}
+          />
+        </button>
 
-        {/* Brand Text: Always mounted, transitions smoothly when opening, but disappears instantly when closing */}
+        {/* Brand Text: Always mounted, transitions smoothly when opening, disappears instantly when closing */}
         <span
           className={cn(
             "font-bold text-lg tracking-tight text-onyx-900 dark:text-white truncate origin-left",
-            collapsed ? "max-w-0 opacity-0 pointer-events-none transition-none duration-0" : "max-w-[150px] opacity-100 transition-all duration-300"
+            collapsed
+              ? "max-w-0 opacity-0 ml-0 pointer-events-none transition-none duration-0"
+              : "max-w-[150px] opacity-100 ml-3 transition-all duration-300"
           )}
         >
           EcoStock
         </span>
 
         {/* Floating close button at the right edge when expanded */}
-        {!collapsed && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setCollapsed(!collapsed)}
-            className="absolute -right-3 top-3 h-6 w-6 rounded-full border border-onyx-200 bg-white dark:bg-onyx-900 dark:border-onyx-800 text-onyx-600 dark:text-onyx-300 shadow-md hover:bg-onyx-50 dark:hover:bg-onyx-900/50 z-40 shrink-0"
-          >
-            <ChevronLeft className="h-3 w-3" />
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={(e) => {
+            setCollapsed(!collapsed);
+            e.currentTarget.blur();
+          }}
+          className={cn(
+            "absolute right-2 top-3 h-6 w-6 rounded-full border border-onyx-200 bg-white dark:bg-onyx-900 dark:border-onyx-800 text-onyx-600 dark:text-onyx-300 shadow-md hover:bg-onyx-50 dark:hover:bg-onyx-900/50 z-40 shrink-0",
+            collapsed
+              ? "opacity-0 pointer-events-none scale-75 transition-all duration-200"
+              : "opacity-100 scale-100 transition-all duration-300 delay-200"
+          )}
+        >
+          <ChevronLeft className="h-3 w-3" />
+        </Button>
       </div>
 
       {/* Main Navigation */}
-      <nav className={cn(
-        "flex-1 flex flex-col gap-2.5 px-3 overflow-y-auto no-scrollbar",
-        collapsed ? "justify-center" : "pt-8 pb-4"
-      )}>
+      <nav className="flex-1 flex flex-col gap-2.5 overflow-y-auto no-scrollbar pt-6 pb-4">
         {menuItems.map((item) => (
           <SidebarButton
             key={item.id}
@@ -184,7 +210,7 @@ export function DashboardSidebar({
       </nav>
 
       {/* Bottom Actions */}
-      <div className="pt-4 px-3 flex flex-col gap-2.5 shrink-0">
+      <div className="pt-4 mt-12 flex flex-col gap-2.5 shrink-0">
         {bottomItems.map((item) => (
           <SidebarButton
             key={item.id}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { DashboardBottomNav } from "@/components/dashboard-bottom-nav";
@@ -13,8 +13,27 @@ import { ViewProfit } from "@/components/view-profit";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("overview");
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // Close sidebar on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        !sidebarCollapsed &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setSidebarCollapsed(true);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [sidebarCollapsed]);
 
   // Sync theme with DOM
   useEffect(() => {
@@ -64,17 +83,19 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-onyx-50 dark:bg-onyx-950 font-sans transition-colors duration-300">
-      {/* Sidebar for Desktop */}
-      <DashboardSidebar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        collapsed={sidebarCollapsed}
-        setCollapsed={setSidebarCollapsed}
-      />
+    <div className="flex h-screen overflow-hidden bg-onyx-50 dark:bg-onyx-950 font-sans transition-colors duration-300 relative">
+      {/* Sidebar for Desktop - absolutely positioned overlay */}
+      <div ref={sidebarRef} className="absolute left-0 top-0 h-full z-30 flex shrink-0">
+        <DashboardSidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          collapsed={sidebarCollapsed}
+          setCollapsed={setSidebarCollapsed}
+        />
+      </div>
 
-      {/* Main Body */}
-      <div className="flex-1 flex flex-col min-w-0 relative">
+      {/* Main Body - stretches full screen, with left padding safe-zone */}
+      <div className="flex-1 flex flex-col min-w-0 relative pl-20">
         {/* Header */}
         <DashboardHeader theme={theme} toggleTheme={toggleTheme} />
 
