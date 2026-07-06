@@ -57,8 +57,9 @@ function SidebarButton({
         e.currentTarget.blur();
       }}
       className={cn(
-        "flex h-12 items-center gap-3 transition-all duration-300 relative group rounded-2xl justify-start pl-3.5",
-        collapsed ? "w-12" : "w-full pr-4 text-sm",
+        "flex items-center transition-all duration-300 relative group justify-start",
+        "h-10 xl:h-12 gap-2 pl-3 text-xs xl:gap-3 xl:pl-3.5 xl:text-sm rounded-xl xl:rounded-2xl",
+        collapsed ? "w-10 xl:w-12" : "w-full pr-3 xl:pr-4",
         isActive
           ? "bg-chartreuse-500 text-onyx-950 font-bold"
           : isLogout
@@ -68,7 +69,7 @@ function SidebarButton({
     >
       <Icon
         className={cn(
-          "h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-105",
+          "h-4 w-4 xl:h-5 xl:w-5 shrink-0 transition-transform duration-200 group-hover:scale-105",
           isActive
             ? "text-onyx-950"
             : isLogout
@@ -81,7 +82,7 @@ function SidebarButton({
           "truncate origin-left",
           collapsed
             ? "max-w-0 opacity-0 pointer-events-none transition-none duration-0"
-            : "max-w-37.5 opacity-100 transition-[max-width,opacity] duration-300"
+            : "max-w-24 xl:max-w-37.5 opacity-100 transition-[max-width,opacity] duration-300"
         )}
       >
         {label}
@@ -128,12 +129,12 @@ export function DashboardSidebar({
   return (
     <aside
       className={cn(
-        "hidden sm:flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30 py-5 h-full pl-4 pr-3",
-        collapsed ? "w-20 shadow-none" : "w-64 shadow-2xl"
+        "hidden sm:flex flex-col border-r border-onyx-200/50 dark:border-onyx-800 bg-white/80 dark:bg-onyx-950 backdrop-blur-md transition-all duration-300 relative z-30 h-full pl-3 pr-2.5 py-4 xl:pl-4 xl:pr-3 xl:py-5",
+        collapsed ? "w-16 xl:w-20 shadow-none" : "w-52 xl:w-64 shadow-2xl"
       )}
     >
       {/* Brand Header */}
-      <div className="h-12 flex items-center shrink-0 relative justify-start">
+      <div className="h-10 xl:h-12 flex items-center shrink-0 relative justify-start">
         {/* Unified Logo/Toggle button - preserves DOM node identity for smooth transitions */}
         <button
           onClick={
@@ -145,14 +146,14 @@ export function DashboardSidebar({
               : undefined
           }
           className={cn(
-            "relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold transition-all duration-300 group/logo-btn",
+            "relative flex h-10 w-10 xl:h-12 xl:w-12 shrink-0 items-center justify-center rounded-xl xl:rounded-2xl bg-chartreuse-500 text-onyx-950 shadow-md shadow-chartreuse-500/10 font-bold transition-all duration-300 group/logo-btn",
             collapsed ? "cursor-pointer hover:bg-chartreuse-600" : "cursor-default"
           )}
         >
           {/* Leaf Icon - morphs only when collapsed */}
           <Leaf
             className={cn(
-              "h-5 w-5 absolute transition-all duration-300",
+              "h-4 w-4 xl:h-5 xl:w-5 absolute transition-all duration-300",
               collapsed
                 ? "group-hover/logo-btn:opacity-0 group-hover/logo-btn:scale-75 group-hover/logo-btn:rotate-90"
                 : "opacity-100 scale-100 rotate-0"
@@ -162,7 +163,7 @@ export function DashboardSidebar({
           {/* Chevron Icon - morphs only when collapsed */}
           <ChevronRight
             className={cn(
-              "h-5 w-5 absolute transition-all duration-300",
+              "h-4 w-4 xl:h-5 xl:w-5 absolute transition-all duration-300",
               collapsed
                 ? "opacity-0 scale-75 group-hover/logo-btn:opacity-100 group-hover/logo-btn:scale-100"
                 : "opacity-0 scale-75 pointer-events-none"
@@ -173,10 +174,10 @@ export function DashboardSidebar({
         {/* Brand Text: Always mounted, transitions smoothly when opening, disappears instantly when closing */}
         <span
           className={cn(
-            "font-bold text-lg tracking-tight text-onyx-900 dark:text-white truncate origin-left ml-3",
+            "font-bold text-base xl:text-lg tracking-tight text-onyx-900 dark:text-white truncate origin-left ml-2 xl:ml-3",
             collapsed
               ? "max-w-0 opacity-0 pointer-events-none transition-none duration-0"
-              : "max-w-37.5 opacity-100 transition-[max-width,opacity] duration-300"
+              : "max-w-24 xl:max-w-37.5 opacity-100 transition-[max-width,opacity] duration-300"
           )}
         >
           EcoStock
@@ -202,7 +203,7 @@ export function DashboardSidebar({
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 flex flex-col gap-2.5 overflow-y-auto no-scrollbar pt-6 pb-4">
+      <nav className="flex-1 flex flex-col gap-1.5 xl:gap-2.5 overflow-y-auto no-scrollbar pt-4 xl:pt-6 pb-4">
         {menuItems.map((item) => (
           <SidebarButton
             key={item.id}
@@ -217,7 +218,7 @@ export function DashboardSidebar({
       </nav>
 
       {/* Bottom Actions */}
-      <div className="pt-4 mt-12 flex flex-col gap-2.5 shrink-0">
+      <div className="pt-3 xl:pt-4 mt-auto flex flex-col gap-1.5 xl:gap-2.5 shrink-0">
         {bottomItems.map((item) => (
           <SidebarButton
             key={item.id}

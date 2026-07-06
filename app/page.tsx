@@ -80,7 +80,7 @@ export default function Home() {
       </div>
 
       {/* Main Body - stretches full screen, with left padding safe-zone */}
-      <div className="flex-1 flex flex-col min-w-0 relative pl-20">
+      <div className="flex-1 flex flex-col min-w-0 relative pl-0 sm:pl-16 xl:pl-20">
         {/* Header */}
         <DashboardHeader />
 
