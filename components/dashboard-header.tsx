@@ -52,9 +52,12 @@ export function DashboardHeader() {
       {/* Header Actions */}
       <div className="flex items-center gap-3">
         {/* Subtle AI Insight Badge */}
-        <div className="hidden md:flex items-center gap-1 xl:gap-1.5 text-[10px] xl:text-[11px] font-semibold text-chartreuse-600 dark:text-chartreuse-400 mr-1 xl:mr-2 bg-chartreuse-500/5 px-2 py-0.5 xl:px-2.5 xl:py-1 rounded-lg border border-chartreuse-500/10">
-          <Sparkles className="h-3 w-3 xl:h-3.5 xl:w-3.5" />
-          <span>AI Active</span>
+        <div className="hidden md:flex items-center gap-2 text-[10px] xl:text-[11px] font-extrabold text-chartreuse-700 dark:text-chartreuse-400 mr-1 xl:mr-2 bg-chartreuse-500/10 dark:bg-chartreuse-500/5 px-2 py-1 xl:px-2.5 xl:py-1 rounded-lg border border-chartreuse-500/20 shadow-[0_0_10px_rgba(198,249,31,0.05)]">
+          <span className="relative flex h-1.5 w-1.5 xl:h-2 xl:w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-chartreuse-500 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 xl:h-2 xl:w-2 bg-chartreuse-500"></span>
+          </span>
+          <span>EcoAI Active</span>
         </div>
 
         {/* Primary Export Action Dropdown */}

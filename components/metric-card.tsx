@@ -121,9 +121,9 @@ export function MetricCard({
             <div className="w-full flex items-center justify-center h-full relative">
               {/* Semi-circular gauge */}
               <div className="relative w-28 h-14 overflow-hidden flex items-end justify-center">
-                <div className="absolute top-0 left-0 w-28 h-28 border-[12px] border-onyx-100 dark:border-onyx-800 rounded-full" />
+                <div className="absolute top-0 left-0 w-28 h-28 border-12 border-onyx-100 dark:border-onyx-800 rounded-full" />
                 <div
-                  className="absolute top-0 left-0 w-28 h-28 border-[12px] border-transparent rounded-full origin-center transition-transform duration-1000 ease-out"
+                  className="absolute top-0 left-0 w-28 h-28 border-12 border-transparent rounded-full origin-center transition-transform duration-1000 ease-out"
                   style={{
                     borderTopColor: sparklineColor,
                     borderRightColor: sparklineColor,
