@@ -157,7 +157,7 @@ export function ProductionChart() {
       </CardHeader>
 
       <CardContent className="flex-1 pb-4">
-        <ChartContainer config={chartConfig} className="w-full h-[350px] lg:h-[380px] min-h-0">
+        <ChartContainer config={chartConfig} className="w-full h-87.5 lg:h-95 min-h-0">
           <AreaChart data={activeData} margin={{ top: 10, right: 55, left: 20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorProduksi" x1="0" y1="0" x2="0" y2="1">
