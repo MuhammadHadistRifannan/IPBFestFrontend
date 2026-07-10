@@ -2,10 +2,15 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Coffee, Cake, ShoppingBag } from "lucide-react";
+import { Coffee, Cake, ShoppingBag, ArrowUpRight } from "lucide-react";
 import { transactions } from "@/lib/mock-data";
+import { Button } from "@/components/ui/button";
 
-export function RecentTransactions() {
+interface RecentTransactionsProps {
+  setActiveTab?: (tab: string) => void;
+}
+
+export function RecentTransactions({ setActiveTab }: RecentTransactionsProps) {
   const getIconForActivity = (activity: string) => {
     const act = activity.toLowerCase();
     if (act.includes("roti")) return ShoppingBag;
@@ -17,13 +22,23 @@ export function RecentTransactions() {
     <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl flex flex-col h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <div>
-          <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
+          <CardTitle className="text-base font-bold text-onyx-900 dark:text-white">
             Rekap Penjualan Terkini
           </CardTitle>
-          <CardDescription className="text-onyx-500 dark:text-onyx-400">
+          <CardDescription className="text-xs text-onyx-500 dark:text-onyx-400 mt-1">
             Catatan transaksi penjualan harian dari WhatsApp Bot
           </CardDescription>
         </div>
+        {setActiveTab && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setActiveTab("sales")}
+            className="h-8 w-8 rounded-lg text-onyx-400 dark:text-onyx-500 hover:bg-onyx-50 dark:hover:bg-onyx-800 cursor-pointer shrink-0"
+          >
+            <ArrowUpRight className="h-4 w-4" />
+          </Button>
+        )}
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col justify-between py-4 space-y-4">
@@ -31,13 +46,13 @@ export function RecentTransactions() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-onyx-100 dark:border-onyx-800 pb-2">
-                <th className="text-[10px] font-bold uppercase tracking-wider text-onyx-400 dark:text-onyx-500 pb-2">
+                <th className="text-xs font-bold text-onyx-500 dark:text-onyx-400 pb-2.5">
                   Produk & Detail
                 </th>
-                <th className="text-[10px] font-bold uppercase tracking-wider text-onyx-400 dark:text-onyx-500 pb-2 hidden sm:table-cell">
+                <th className="text-xs font-bold text-onyx-500 dark:text-onyx-400 pb-2.5 hidden sm:table-cell">
                   Waktu Rekap
                 </th>
-                <th className="text-[10px] font-bold uppercase tracking-wider text-onyx-400 dark:text-onyx-500 pb-2 text-right">
+                <th className="text-xs font-bold text-onyx-500 dark:text-onyx-400 pb-2.5 text-right">
                   Total Penjualan
                 </th>
               </tr>

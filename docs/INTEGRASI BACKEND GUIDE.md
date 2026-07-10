@@ -12,21 +12,32 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
   ### A. Trend Charts & Metric Cards (Overview Utama)
   * **Komponen**: [components/production-chart.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/production-chart.tsx)
   * **Data**: Angka total produksi, sell-through rate (STR), total kerugian material, dan riwayat tren harian untuk chart.
+  * **Catatan Integrasi**: `AreaChart` diatur simetris dengan margin `left: 20` & `right: 55` serta sumbu Y `width={55}` untuk mencegah angka nominal k terpotong.
 
   ### B. Rekap Penjualan Terkini (Recent Transactions)
   * **Komponen**: [components/recent-transactions.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/recent-transactions.tsx)
   * **Data**: Log audit transaksi rekap harian terakhir yang masuk via WhatsApp Bot.
+  * **Tindakan UX**: Menerima properti `setActiveTab` untuk navigasi langsung ke tab `"sales"` (Penjualan) saat tombol ikon `ArrowUpRight` diklik.
   * **Fields**: `id` (string), `activity` (nama produk & jumlah pcs), `category` (selalu "WhatsApp Rekap"), `date` (tanggal format text), `price` (total nilai omzet).
 
   ### C. Sisa Bahan & Makanan (Waste Progress)
   * **Komponen**: [components/waste-progress.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/waste-progress.tsx)
   * **Data**: Persentase optimalisasi sisa produk untuk mengetahui efisiensi pemanfaatan adonan beserta rekomendasi AI instan.
+  * **Tindakan UX**: Menerima properti `setActiveTab` untuk navigasi langsung ke tab `"waste"` (Analisis Sisa) saat tombol ikon `ArrowUpRight` diklik.
   * **Fields**: `name` (nama produk), `wastePercentage` (angka rasio sisa), `wasteQty` (jumlah pcs sisa), `unit` (satuan, e.g. "Pcs"), `insight` (rekomendasi teks singkat dari AI).
 
   ### D. Aktivitas Channel Masuk (Activity Map)
   * **Komponen**: [components/activity-map.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/activity-map.tsx)
   * **Data**: Statistik pembagian porsi data masuk antara WhatsApp Bot dan Web Dashboard (e.g. rasio pemakaian).
   * **Fields**: `name` (nama channel), `type` ("whatsapp" | "web"), `usagePercentage` (persentase porsi penggunaan), `totalTrans` (jumlah transaksi bulan ini), `lastSync` (status sinkronisasi terakhir, e.g. "10 menit lalu").
+
+  ### E. Ikhtisar Keuntungan (Portfolio Performance)
+  * **Komponen**: [components/portfolio-performance.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/portfolio-performance.tsx)
+  * **Data**: Rincian kontribusi keuntungan per kategori produk makanan serta **Daftar Produk Penyumbang Laba Terbesar (Top Profit Drivers)** yang berubah secara dinamis sesuai kategori yang dipilih.
+  * **Tindakan UX**: Menerima properti `setActiveTab` untuk navigasi langsung ke tab `"profit"` (Keuntungan) saat tombol ikon `ArrowUpRight` diklik.
+  * **Fields**: 
+    * Kategori: `id` (string), `name` (nama kategori), `type` (sub-label), `value` (nilai profit kategori), `growth` (persentase pertumbuhan).
+    * Daftar Produk Terlaris (Dinamis per Kategori): `name` (nama menu makanan), `profit` (laba bersih nominal), `str` (angka persentase sell-through rate).
 
 * **Rekomendasi Endpoint API**:
   * **`GET /api/analytics/overview`**
@@ -48,14 +59,28 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
       ],
       "channelActivity": [
         { "id": "ch-1", "name": "WhatsApp Rekap Bot", "type": "whatsapp", "usagePercentage": 82, "totalTrans": "42 Rekap", "lastSync": "10 menit lalu" }
-      ]
+      ],
+      "categoryProfitOverview": {
+        "asset-1": [
+          { "name": "Brownies Cokelat", "profit": "Rp12,4 Jt", "str": 89 },
+          { "name": "Roti Tawar Pandan", "profit": "Rp8,2 Jt", "str": 92 }
+        ],
+        "asset-2": [
+          { "name": "Kopi Susu Aren", "profit": "Rp10,5 Jt", "str": 95 },
+          { "name": "Matcha Latte", "profit": "Rp4,5 Jt", "str": 82 }
+        ],
+        "asset-3": [
+          { "name": "Puding Sutra Mangga", "profit": "Rp15,2 Jt", "str": 88 },
+          { "name": "Croissant Cokelat", "profit": "Rp8,4 Jt", "str": 82 }
+        ]
+      }
     }
     ```
 
 ---
 
 ## 2. Halaman AI Forecast (Prediksi Produksi)
-* **File File**: [components/view-forecast.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-forecast.tsx)
+* **File Utama**: [components/view-forecast.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-forecast.tsx)
 * **Kebutuhan Data**:
   * Daftar rekomendasi jumlah produksi harian per produk.
   * Teks penjelasan alasan rekomendasi AI (*reasoning*).
@@ -74,7 +99,8 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
         "todayProduction": 50,
         "recommendedProduction": 45,
         "reason": "Permintaan cenderung turun di hari Minggu berdasarkan tren historis 7 hari.",
-        "warning": false
+        "warning": false,
+        "reliability": "Tinggi"
       }
     ]
     ```
@@ -82,7 +108,7 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
 ---
 
 ## 3. Halaman Waste Analytics
-* **File File**: [components/view-waste.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-waste.tsx)
+* **File Utama**: [components/view-waste.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-waste.tsx)
 * **Kebutuhan Data**:
   * Daftar produk dengan persentase sisa terbuang (*waste*).
   * Estimasi kerugian finansial per jenis produk.
@@ -115,7 +141,7 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
 ---
 
 ## 4. Halaman Sales Analytics
-* **File File**: [components/view-sales.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-sales.tsx)
+* **File Utama**: [components/view-sales.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-sales.tsx)
 * **Kebutuhan Data**:
   * Daftar ranking produk terlaris beserta jumlah terjual dan total omzet.
   * Grafik area tren penjualan harian/mingguan.
@@ -139,7 +165,7 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
 ---
 
 ## 5. Halaman Profit Analytics
-* **File File**: [components/view-profit.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-profit.tsx)
+* **File Utama**: [components/view-profit.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-profit.tsx)
 * **Kebutuhan Data**:
   * Grafik garis perbandingan Omzet vs Keuntungan Bersih bulanan.
   * Data persentase margin laba dan pertumbuhan laba berdasarkan kategori produk (Roti, Kue, Minuman).
@@ -160,23 +186,26 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
 
 ---
 
-## 6. Halaman Manajemen Produk (CRUD)
-* **File File**: [components/view-product.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-product.tsx)
+## 6. Halaman Kelola Produk (CRUD Katalog)
+* **File Utama**: [components/view-product.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/view-product.tsx)
 * **Kebutuhan Aksi & Data**:
   * Menampilkan semua daftar produk (`GET`).
-  * Menambah produk (`POST`).
-  * Mengedit harga/nama/status aktif produk (`PUT`).
+  * Menambah produk baru lengkap dengan berkas gambar (`POST`).
+  * Mengedit nama, kategori, harga, status aktif, dan mengunggah ulang foto produk (`PUT`).
   * Menghapus produk (`DELETE`).
+* **Catatan Integrasi Backend**:
+  * **Filter Kategori Utama**: Menggunakan parameter filter bahasa Indonesia `"Semua"` (huruf S kapital) alih-alih `"all"` untuk mengambil seluruh data produk.
+  * **Unggah Foto Berkas (File Upload)**: Uploader foto di sisi klien sekarang mengolah file asli via input. API backend untuk `POST` dan `PUT` harus siap memproses tipe konten `multipart/form-data` yang memuat berkas gambar biner, menyimpannya di penyimpanan awan/server, dan mengembalikan tautan URL gambar permanen.
 * **Rekomendasi Endpoint API**:
-  * **`GET /api/products`**
-  * **`POST /api/products`**
-  * **`PUT /api/products/{id}`**
+  * **`GET /api/products`** (Mendukung parameter `?category=Semua` atau filter kategori tertentu).
+  * **`POST /api/products`** (Tipe konten `multipart/form-data` dengan payload fields: `name`, `category`, `price`, `status`, `image`).
+  * **`PUT /api/products/{id}`** (Mendukung pembaruan parsial atau unggah ulang gambar baru).
   * **`DELETE /api/products/{id}`**
 
 ---
 
 ## 7. Header (Notifikasi & Profil Pengguna)
-* **File File**: [components/dashboard-header.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/dashboard-header.tsx)
+* **File Utama**: [components/dashboard-header.tsx](file:///home/pputra/Documents/Project-Web/ipbfest-frontend/components/dashboard-header.tsx)
 * **Kebutuhan Data**:
   * **Daftar Notifikasi**: Riwayat notifikasi sistem dan rekomendasi AI (e.g. peringatan stok kritis, pembaruan rekomendasi AI).
   * **Profil Pengguna**: Nama owner (e.g. "Pratama Putra"), email, dan foto avatar.

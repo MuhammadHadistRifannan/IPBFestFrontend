@@ -75,10 +75,10 @@ export function ProductionChart() {
     <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl flex flex-col h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-4 space-y-0">
         <div>
-          <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
+          <CardTitle className="text-base font-bold text-onyx-900 dark:text-white">
             Ikhtisar Produksi vs Penjualan
           </CardTitle>
-          <CardDescription className="text-onyx-500 dark:text-onyx-400">
+          <CardDescription className="text-xs text-onyx-500 dark:text-onyx-400 mt-1">
             Perbandingan jumlah produksi makanan dengan penjualan aktual harian (dalam Pcs)
           </CardDescription>
         </div>
@@ -158,7 +158,7 @@ export function ProductionChart() {
 
       <CardContent className="flex-1 pb-4">
         <ChartContainer config={chartConfig} className="w-full aspect-21/9 min-h-50">
-          <AreaChart data={activeData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart data={activeData} margin={{ top: 10, right: 55, left: 20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorProduksi" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="var(--color-mauve-shadow-500)" stopOpacity={0.25} />
@@ -182,6 +182,7 @@ export function ProductionChart() {
               tickLine={false}
               tickMargin={10}
               tickFormatter={(value) => `${value / 1000}k`}
+              width={55}
               className="text-onyx-400 dark:text-onyx-500"
             />
             <ChartTooltip content={<ChartTooltipContent />} />

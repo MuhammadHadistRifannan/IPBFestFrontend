@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
@@ -21,6 +22,8 @@ interface MetricCardProps {
   sparklineData: { value: number }[];
   sparklineColor: string;
   gaugePercentage?: number;
+  description?: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
 export function MetricCard({
@@ -32,37 +35,50 @@ export function MetricCard({
   sparklineData,
   sparklineColor,
   gaugePercentage,
+  description,
+  icon: Icon,
 }: MetricCardProps) {
   return (
     <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-onyx-200/20 dark:hover:shadow-black/30 hover:-translate-y-0.5">
       <CardContent className="p-6">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-onyx-400 dark:text-onyx-500">
+        <div className="flex justify-between items-start gap-4">
+          <div className="space-y-1.5 flex-1">
+            <span className="text-sm font-semibold text-onyx-500 dark:text-onyx-400 block">
               {title}
             </span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white">
+            <div className="flex items-baseline gap-2 mt-1">
+              <span className="text-2xl font-black tracking-tight text-onyx-900 dark:text-white">
                 {value}
               </span>
               {change && (
                 <span
-                  className={`inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full ${
+                  className={cn(
+                    "inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full",
                     isPositive
                       ? "text-emerald-700 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-950/20"
                       : "text-rose-700 bg-rose-50 dark:text-rose-400 dark:bg-rose-950/20"
-                  }`}
+                  )}
                 >
                   {isPositive ? (
-                    <ArrowUpRight className="h-3.5 w-3.5 mr-0.5" />
+                    <ArrowUpRight className="h-3 w-3.5 mr-0.5" />
                   ) : (
-                    <ArrowDownRight className="h-3.5 w-3.5 mr-0.5" />
+                    <ArrowDownRight className="h-3 w-3.5 mr-0.5" />
                   )}
                   {change}
                 </span>
               )}
             </div>
+            {description && (
+              <p className="text-xs text-onyx-500 dark:text-onyx-450 font-medium leading-relaxed pt-1">
+                {description}
+              </p>
+            )}
           </div>
+          {Icon && (
+            <div className="h-10 w-10 rounded-xl bg-onyx-100/50 dark:bg-onyx-800/40 flex items-center justify-center text-onyx-600 dark:text-onyx-350 shrink-0 shadow-inner">
+              <Icon className="h-5 w-5" />
+            </div>
+          )}
         </div>
 
         {/* Sparkline Visualization */}

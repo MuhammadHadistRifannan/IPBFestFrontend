@@ -2,23 +2,23 @@
 
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ArrowUpRight, ArrowDownRight, Coffee, Cake, ShoppingBag } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-} from "recharts";
+import { ArrowUpRight, Coffee, Cake, ShoppingBag } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const performanceData = [
-  { name: "Minggu 1", value: 2200000 },
-  { name: "Minggu 2", value: 2500000 },
-  { name: "Minggu 3", value: 2350000 },
-  { name: "Minggu 4", value: 2800000 },
-  { name: "Minggu 5", value: 3020000 },
-  { name: "Minggu 6", value: 3242200 },
-];
+const categoryProductsData = {
+  "asset-1": [
+    { name: "Brownies Cokelat", profit: "Rp12,4 Jt", str: 89 },
+    { name: "Roti Tawar Pandan", profit: "Rp8,2 Jt", str: 92 },
+  ],
+  "asset-2": [
+    { name: "Kopi Susu Aren", profit: "Rp10,5 Jt", str: 95 },
+    { name: "Matcha Latte", profit: "Rp4,5 Jt", str: 82 },
+  ],
+  "asset-3": [
+    { name: "Puding Sutra Mangga", profit: "Rp15,2 Jt", str: 88 },
+    { name: "Croissant Cokelat", profit: "Rp8,4 Jt", str: 82 },
+  ],
+};
 
 interface AssetCard {
   id: string;
@@ -30,7 +30,11 @@ interface AssetCard {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-export function PortfolioPerformance() {
+interface PortfolioPerformanceProps {
+  setActiveTab?: (tab: string) => void;
+}
+
+export function PortfolioPerformance({ setActiveTab }: PortfolioPerformanceProps) {
   const [activeAssetIndex, setActiveAssetIndex] = useState(0);
 
   const assets: AssetCard[] = [
@@ -40,7 +44,7 @@ export function PortfolioPerformance() {
       type: "Sumbangsih Utama",
       value: "Rp32,5 Jt",
       growth: "+14.2%",
-      colorClass: "bg-plum-900 text-white", // Updated from bg-mauve-shadow-500
+      colorClass: "bg-plum-900 text-white",
       icon: Cake,
     },
     {
@@ -49,7 +53,7 @@ export function PortfolioPerformance() {
       type: "Sumbangsih Stabil",
       value: "Rp18,4 Jt",
       growth: "+8.6%",
-      colorClass: "bg-toffee-600 text-white", // Updated from bg-toffee-brown-500
+      colorClass: "bg-toffee-600 text-white",
       icon: Coffee,
     },
     {
@@ -68,60 +72,71 @@ export function PortfolioPerformance() {
     setActiveAssetIndex(index);
   };
 
+  const currentAsset = assets[activeAssetIndex];
+  const activeProducts = categoryProductsData[currentAsset.id as keyof typeof categoryProductsData];
+
+  // Dynamic color matching the active category border/bullet
+  const getCategoryColor = () => {
+    if (currentAsset.id === "asset-1") return "#E2738F"; // Plum Pink
+    if (currentAsset.id === "asset-2") return "#E5A93C"; // Toffee Gold
+    return "#C6F91F"; // Neon Chartreuse
+  };
+
   return (
     <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl flex flex-col h-full">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
-          Ikhtisar Keuntungan
-        </CardTitle>
-        <CardDescription className="text-onyx-500 dark:text-onyx-400">
-          Perkembangan margin keuntungan bersih toko
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+        <div>
+          <CardTitle className="text-base font-bold text-onyx-900 dark:text-white">
+            Ikhtisar Keuntungan
+          </CardTitle>
+          <CardDescription className="text-xs text-onyx-500 dark:text-onyx-400 mt-1">
+            Perkembangan margin keuntungan bersih toko
+          </CardDescription>
+        </div>
+        {setActiveTab && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setActiveTab("profit")}
+            className="h-8 w-8 rounded-lg text-onyx-400 dark:text-onyx-500 hover:bg-onyx-50 dark:hover:bg-onyx-800 cursor-pointer shrink-0"
+          >
+            <ArrowUpRight className="h-4 w-4" />
+          </Button>
+        )}
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col justify-between py-4 space-y-6">
-        {/* Core Stats Row */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-onyx-50 dark:bg-onyx-950/40 p-3 rounded-xl border border-onyx-100 dark:border-onyx-800/40">
-            <span className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-wider block">
-              Rasio Terjual (STR)
-            </span>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-lg font-bold text-onyx-900 dark:text-white">76.20%</span>
-              <span className="text-[10px] font-bold text-emerald-500 flex items-center">
-                <ArrowUpRight className="h-3 w-3" /> +3.45%
-              </span>
-            </div>
+        {/* Dynamic Top Products Section (Replacing the abstract micro chart) */}
+        <div className="space-y-3 mt-1.5 h-28 flex flex-col justify-center">
+          <span className="text-[11px] font-bold text-onyx-450 dark:text-onyx-500 block">
+            Penyumbang Laba Terbesar
+          </span>
+          <div className="space-y-2">
+            {activeProducts.map((prod) => (
+              <div
+                key={prod.name}
+                className="flex items-center justify-between text-xs bg-onyx-50/40 dark:bg-onyx-950/20 p-2 rounded-xl border border-onyx-200/40 dark:border-onyx-800/30 shadow-inner"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="h-2 w-2 rounded-full shadow-sm"
+                    style={{ backgroundColor: getCategoryColor() }}
+                  />
+                  <span className="font-bold text-onyx-800 dark:text-onyx-200">
+                    {prod.name}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-extrabold text-onyx-900 dark:text-white">
+                    {prod.profit}
+                  </span>
+                  <span className="text-[10px] text-onyx-500 dark:text-onyx-400 font-bold bg-onyx-100/50 dark:bg-onyx-800/50 px-2 py-0.5 rounded-md border border-onyx-200/10">
+                    STR {prod.str}%
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="bg-onyx-50 dark:bg-onyx-950/40 p-3 rounded-xl border border-onyx-100 dark:border-onyx-800/40">
-            <span className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-wider block">
-              Keuntungan Bersih
-            </span>
-            <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-lg font-bold text-onyx-900 dark:text-white">Rp79,3 Jt</span>
-              <span className="text-[10px] font-bold text-rose-500 flex items-center">
-                <ArrowDownRight className="h-3 w-3" /> -4.78%
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Micro Line Chart */}
-        <div className="h-28 w-full">
-          <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-            <LineChart data={performanceData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
-              <XAxis dataKey="name" hide />
-              <YAxis domain={["dataMin - 100000", "dataMax + 100000"]} hide />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="var(--color-plum-900)" // Aligned with official palette
-                strokeWidth={3}
-                dot={{ r: 4, strokeWidth: 0, fill: "var(--color-plum-900)" }}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
         </div>
 
         {/* Stacked Cards Interactive Section */}
@@ -147,10 +162,10 @@ export function PortfolioPerformance() {
                   opacity,
                   backgroundColor:
                     asset.id === "asset-1"
-                      ? "var(--color-plum-900)" // Aligned with official palette
+                      ? "var(--color-plum-900)"
                       : asset.id === "asset-2"
-                      ? "var(--color-toffee-600)" // Aligned with official palette
-                      : "var(--color-chartreuse-500)", // Aligned with official palette
+                      ? "var(--color-toffee-600)"
+                      : "var(--color-chartreuse-500)",
                   color: asset.id === "asset-3" ? "var(--color-onyx-950)" : "white",
                 }}
               >

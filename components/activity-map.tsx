@@ -10,10 +10,10 @@ export function ActivityMap() {
   return (
     <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl flex flex-col h-full relative overflow-hidden">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
+        <CardTitle className="text-base font-bold text-onyx-900 dark:text-white">
           Aktivitas Channel Masuk
         </CardTitle>
-        <CardDescription className="text-sm text-onyx-500 dark:text-onyx-400">
+        <CardDescription className="text-xs text-onyx-500 dark:text-onyx-400 mt-1">
           Ringkasan integrasi data WhatsApp vs Web Dashboard
         </CardDescription>
       </CardHeader>
@@ -21,7 +21,7 @@ export function ActivityMap() {
       <CardContent className="flex-1 flex flex-col justify-between py-4 space-y-6">
         {/* Comparative Progress bars */}
         <div className="space-y-4">
-          <div className="flex justify-between items-center text-xs font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-wider">
+          <div className="flex justify-between items-center text-xs font-bold text-onyx-500 dark:text-onyx-400">
             <span>Pembagian Data Masuk</span>
             <span>Rasio</span>
           </div>
@@ -35,7 +35,7 @@ export function ActivityMap() {
                     <div className={cn(
                       "h-7 w-7 rounded-lg flex items-center justify-center",
                       ch.type === "whatsapp"
-                        ? "bg-chartreuse-500/10 text-chartreuse-600 dark:text-chartreuse-400"
+                        ? "bg-chartreuse-500/10 text-chartreuse-600 dark:text-chartreuse-450"
                         : "bg-toffee-600/10 text-toffee-600"
                     )}>
                       <Icon className="h-4 w-4" />
@@ -65,7 +65,7 @@ export function ActivityMap() {
 
         {/* Sync Status Info Block */}
         <div className="space-y-3">
-          <span className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-wider block">
+          <span className="text-xs font-bold text-onyx-500 dark:text-onyx-400 block">
             Aktivitas Terakhir Sistem
           </span>
           <div className="space-y-2.5">

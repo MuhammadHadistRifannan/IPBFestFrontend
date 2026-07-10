@@ -8,7 +8,7 @@ import { RecentTransactions } from "@/components/recent-transactions";
 import { ActivityMap } from "@/components/activity-map";
 import { PortfolioPerformance } from "@/components/portfolio-performance";
 import { Button } from "@/components/ui/button";
-import { Calendar, FileText, ArrowRight } from "lucide-react";
+import { Calendar, FileText, ArrowRight, Sparkles, Cake, TrendingUp, Coins } from "lucide-react";
 import { produksiData, profitData } from "@/lib/mock-data";
 
 interface ViewOverviewProps {
@@ -25,7 +25,7 @@ export function ViewOverview({ setActiveTab }: ViewOverviewProps) {
             Selamat Pagi, Pratama Putra!
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
-            Berikut adalah laporan keberlanjutan dan stok EcoStock Anda hari ini.
+            Berikut ringkasan kondisi bisnis dan efisiensi produksi Anda hari ini.
           </p>
         </div>
         
@@ -38,6 +38,22 @@ export function ViewOverview({ setActiveTab }: ViewOverviewProps) {
         </div>
       </div>
 
+      {/* Small Notification-style AI Insight Banner (60-80px) */}
+      <div className="rounded-xl border border-chartreuse-500/20 bg-chartreuse-500/5 dark:bg-chartreuse-500/2 px-4 py-3 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-chartreuse-600 dark:text-chartreuse-400 shrink-0" />
+          <p className="text-xs text-onyx-800 dark:text-onyx-200">
+            <span className="font-bold">EcoAI Insight Hari Ini:</span> Produksi Kue Brownies Cokelat diperkirakan surplus tinggi. Harap kurangi produksi.
+          </p>
+        </div>
+        <button 
+          onClick={() => setActiveTab("forecast")}
+          className="text-xs font-bold text-chartreuse-700 dark:text-chartreuse-400 hover:underline shrink-0"
+        >
+          Lihat Detail
+        </button>
+      </div>
+
       {/* Metric Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <MetricCard
@@ -47,26 +63,29 @@ export function ViewOverview({ setActiveTab }: ViewOverviewProps) {
           isPositive={true}
           sparklineType="line"
           sparklineData={produksiData}
-          sparklineColor="var(--color-lemon-400)" // Aligned with official palette
+          sparklineColor="var(--color-lemon-400)"
+          description="Produksi meningkat 18% minggu ini untuk menyambut libur akhir pekan."
         />
         <MetricCard
-          title="Rasio Terjual (STR)"
+          title="Rasio Menu Terjual"
           value="76.2%"
           change="+3.4%"
           isPositive={true}
           sparklineType="gauge"
           sparklineData={[]}
-          sparklineColor="var(--color-chartreuse-500)" // Aligned with official palette
+          sparklineColor="var(--color-chartreuse-500)"
           gaugePercentage={76}
+          description="Hebat! Lebih dari 7 dari 10 menu buatan Anda habis terjual."
         />
         <MetricCard
-          title="Estimasi Profit"
+          title="Estimasi Keuntungan"
           value="Rp79,3 Jt"
           change="-2.1%"
           isPositive={false}
           sparklineType="bar"
           sparklineData={profitData}
-          sparklineColor="var(--color-toffee-600)" // Aligned with official palette
+          sparklineColor="var(--color-toffee-600)"
+          description="Profit stabil didorong oleh efisiensi bahan dan minimnya sisa produk."
         />
       </div>
 
@@ -76,40 +95,18 @@ export function ViewOverview({ setActiveTab }: ViewOverviewProps) {
           <ProductionChart />
         </div>
         <div>
-          <WasteProgress />
+          <WasteProgress setActiveTab={setActiveTab} />
         </div>
       </div>
 
       {/* Bottom Row (Portfolio, Table, Map) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <PortfolioPerformance />
-        <RecentTransactions />
+        <PortfolioPerformance setActiveTab={setActiveTab} />
+        <RecentTransactions setActiveTab={setActiveTab} />
         <ActivityMap />
       </div>
 
-      {/* Mini Interactive CTA Section */}
-      <div className="rounded-2xl border border-onyx-200/50 dark:border-onyx-800 bg-white/60 dark:bg-onyx-900/40 backdrop-blur-md p-6 flex flex-col md:flex-row items-center justify-between gap-6 transition-all hover:shadow-md">
-        <div className="flex gap-4">
-          <div className="h-12 w-12 rounded-xl bg-chartreuse-500/10 text-chartreuse-600 dark:text-chartreuse-400 flex items-center justify-center shrink-0">
-            <FileText className="h-6 w-6" />
-          </div>
-          <div>
-            <h3 className="text-sm font-bold text-onyx-900 dark:text-white">
-              Rekomendasi AI Terpadu Siap Diulas
-            </h3>
-            <p className="text-xs text-onyx-500 dark:text-onyx-400 mt-1 max-w-xl leading-relaxed">
-              Analisis efisiensi bahan dan prediksi sisa produk Anda sudah terisi penuh. Tinjau lembar rekomendasi kami untuk mengurangi sisa produksi roti besok pagi.
-            </p>
-          </div>
-        </div>
-        <Button
-          onClick={() => setActiveTab("forecast")}
-          className="shrink-0 bg-onyx-900 dark:bg-white text-white dark:text-onyx-950 hover:bg-onyx-800 dark:hover:bg-onyx-50 font-bold rounded-xl text-xs h-10 px-4 group cursor-pointer shadow-sm"
-        >
-          Tinjau Rekomendasi
-          <ArrowRight className="h-4 w-4 ml-1.5 group-hover:translate-x-1 transition-transform" />
-        </Button>
-      </div>
+
     </div>
   );
 }
