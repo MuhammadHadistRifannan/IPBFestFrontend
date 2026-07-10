@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MetricCard } from "@/components/metric-card";
 import { ProductionChart } from "@/components/production-chart";
 import { WasteProgress } from "@/components/waste-progress";
@@ -16,13 +16,60 @@ interface ViewOverviewProps {
 }
 
 export function ViewOverview({ setActiveTab }: ViewOverviewProps) {
+  const [greeting, setGreeting] = useState("Selamat Pagi");
+  const [formattedDate, setFormattedDate] = useState("Sab, 04 Juli 2026");
+
+  useEffect(() => {
+    const now = new Date();
+    const hours = now.getHours();
+    
+    // Set dynamic greeting based on hours
+    let currentGreeting = "Selamat Pagi";
+    if (hours >= 11 && hours < 15) {
+      currentGreeting = "Selamat Siang";
+    } else if (hours >= 15 && hours < 19) {
+      currentGreeting = "Selamat Sore";
+    } else if (hours >= 19 || hours < 4) {
+      currentGreeting = "Selamat Malam";
+    }
+    setGreeting(currentGreeting);
+
+    // Set dynamic date in Indonesian format (e.g., Jum, 10 Juli 2026)
+    try {
+      const options: Intl.DateTimeFormatOptions = { 
+        weekday: "short", 
+        day: "2-digit", 
+        month: "long", 
+        year: "numeric" 
+      };
+      const formatter = new Intl.DateTimeFormat("id-ID", options);
+      const parts = formatter.formatToParts(now);
+      
+      let weekday = parts.find(p => p.type === "weekday")?.value || "";
+      const day = parts.find(p => p.type === "day")?.value || "";
+      const month = parts.find(p => p.type === "month")?.value || "";
+      const year = parts.find(p => p.type === "year")?.value || "";
+      
+      // Clean up punctuation if necessary (Intl.DateTimeFormat for id-ID sometimes adds period or comma)
+      weekday = weekday.replace(/[^a-zA-Z]/g, "");
+      if (weekday) {
+        weekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
+      }
+      
+      setFormattedDate(`${weekday}, ${day} ${month} ${year}`);
+    } catch (e) {
+      // Fallback in case of locale formatting issue
+      setFormattedDate(now.toLocaleDateString("id-ID"));
+    }
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Welcome Banner / Header Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-onyx-900 dark:text-white">
-            Selamat Pagi, Pratama Putra!
+            {greeting}, Pratama Putra!
           </h1>
           <p className="text-sm text-onyx-500 dark:text-onyx-400 mt-1">
             Berikut ringkasan kondisi bisnis dan efisiensi produksi Anda hari ini.
@@ -33,7 +80,7 @@ export function ViewOverview({ setActiveTab }: ViewOverviewProps) {
         <div className="flex items-center gap-3 self-start md:self-auto">
           <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-onyx-900 border border-onyx-200/60 dark:border-onyx-800 text-xs font-semibold text-onyx-700 dark:text-onyx-300">
             <Calendar className="h-3.5 w-3.5 text-onyx-400" />
-            <span>Sab, 04 Juli 2026</span>
+            <span>{formattedDate}</span>
           </div>
         </div>
       </div>
