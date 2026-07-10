@@ -68,7 +68,7 @@ export function MetricCard({
         {/* Sparkline Visualization */}
         <div className="h-16 mt-6 w-full flex items-end">
           {sparklineType === "line" && (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <AreaChart data={sparklineData}>
                 <defs>
                   <linearGradient id={`gradient-${title.replace(/\s+/g, "")}`} x1="0" y1="0" x2="0" y2="1">
@@ -89,7 +89,7 @@ export function MetricCard({
           )}
 
           {sparklineType === "bar" && (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart data={sparklineData}>
                 <Bar
                   dataKey="value"

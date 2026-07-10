@@ -108,7 +108,7 @@ export function PortfolioPerformance() {
 
         {/* Micro Line Chart */}
         <div className="h-28 w-full">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0}>
             <LineChart data={performanceData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
               <XAxis dataKey="name" hide />
               <YAxis domain={["dataMin - 100000", "dataMax + 100000"]} hide />
