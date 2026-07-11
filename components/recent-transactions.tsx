@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Coffee, Cake, ShoppingBag, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { transactions } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 
@@ -11,13 +11,6 @@ interface RecentTransactionsProps {
 }
 
 export function RecentTransactions({ setActiveTab }: RecentTransactionsProps) {
-  const getIconForActivity = (activity: string) => {
-    const act = activity.toLowerCase();
-    if (act.includes("roti")) return ShoppingBag;
-    if (act.includes("kue") || act.includes("lapis") || act.includes("brownies")) return Cake;
-    return Coffee;
-  };
-
   return (
     <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl flex flex-col h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
@@ -59,16 +52,17 @@ export function RecentTransactions({ setActiveTab }: RecentTransactionsProps) {
             </thead>
             <tbody>
               {transactions.map((tx) => {
-                const Icon = getIconForActivity(tx.activity);
                 return (
                   <tr
                     key={tx.id}
                     className="border-b border-onyx-100/50 dark:border-onyx-800/30 last:border-none group hover:bg-onyx-50/30 dark:hover:bg-onyx-800/10 transition-colors duration-200"
                   >
                     <td className="py-3 flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-lg bg-onyx-100 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-300 flex items-center justify-center shrink-0">
-                        <Icon className="h-4 w-4" />
-                      </div>
+                      <img
+                        src="/brownies.webp"
+                        className="h-8 w-8 rounded-md object-cover border border-onyx-200/40 dark:border-onyx-800/40 shrink-0"
+                        alt={tx.activity}
+                      />
                       <div className="min-w-0">
                         <p className="text-xs font-semibold text-onyx-900 dark:text-white truncate max-w-35 sm:max-w-50">
                           {tx.activity}

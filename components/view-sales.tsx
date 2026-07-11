@@ -175,36 +175,97 @@ export function ViewSales() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 space-y-4">
-            {salesList.map((item, index) => (
-              <div key={item.id} className="p-3.5 rounded-xl bg-onyx-50/50 dark:bg-onyx-950/40 border border-onyx-200/60 dark:border-onyx-800/40 flex items-center justify-between gap-3 shadow-sm hover:translate-y-[-1px] transition-transform">
-                <div className="flex items-center gap-3">
-                  <span className={`h-6 w-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 ${
-                    index === 0
-                      ? "bg-chartreuse-500 text-onyx-950"
-                      : index === 1
-                      ? "bg-lemon-400 text-onyx-950"
-                      : "bg-onyx-200 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-400"
-                  }`}>
-                    {index + 1}
-                  </span>
-                  <img 
-                    src="/brownies.webp" 
-                    className="h-10 w-10 rounded-lg object-cover border border-onyx-200/40 dark:border-onyx-800/40 shrink-0" 
-                    alt={item.name} 
-                  />
-                  <div>
-                    <h4 className="text-xs font-bold text-onyx-900 dark:text-white truncate max-w-[90px]">{item.name}</h4>
-                    <span className="text-xs text-onyx-450 dark:text-onyx-500 block mt-0.5">{item.soldQty} Unit Terjual</span>
+            {salesList.map((item, index) => {
+              // Performance tags & trend metadata for visual interest
+              const getPerformanceMeta = (idx: number) => {
+                if (idx === 0) {
+                  return {
+                    badge: "Hot Seller",
+                    trend: "+14.2%",
+                    isUp: true,
+                    badgeClass: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/10",
+                  };
+                }
+                if (idx === 1) {
+                  return {
+                    badge: "Tren Naik",
+                    trend: "+8.6%",
+                    isUp: true,
+                    badgeClass: "bg-chartreuse-500/10 text-chartreuse-600 dark:text-chartreuse-450 border border-chartreuse-500/10",
+                  };
+                }
+                if (idx === 2) {
+                  return {
+                    badge: "Konsisten",
+                    trend: "-1.2%",
+                    isUp: false,
+                    badgeClass: "bg-blue-500/10 text-blue-600 dark:text-blue-455 border border-blue-500/10",
+                  };
+                }
+                return {
+                  badge: "Stabil",
+                  trend: "+0.5%",
+                  isUp: true,
+                  badgeClass: "bg-onyx-100 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-400 border border-onyx-200/10",
+                };
+              };
+
+              const perf = getPerformanceMeta(index);
+
+              return (
+                <div 
+                  key={item.id} 
+                  className="p-3.5 rounded-xl bg-onyx-50/50 dark:bg-onyx-950/40 border border-onyx-200/60 dark:border-onyx-800/40 flex items-center justify-between gap-3 shadow-sm hover:translate-y-[-1px] transition-transform"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={cn(
+                      "h-6 w-6 rounded-sm text-xs font-bold flex items-center justify-center shrink-0",
+                      index === 0
+                        ? "bg-chartreuse-500 text-onyx-950"
+                        : index === 1
+                        ? "bg-lemon-400 text-onyx-950"
+                        : "bg-onyx-200 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-400"
+                    )}>
+                      {index + 1}
+                    </span>
+                    <img 
+                      src="/brownies.webp" 
+                      className="h-10 w-10 rounded-sm object-cover border border-onyx-200/40 dark:border-onyx-800/40 shrink-0" 
+                      alt={item.name} 
+                    />
+                    <div>
+                      <h4 className="text-xs font-bold text-onyx-900 dark:text-white truncate max-w-[100px]">
+                        {item.name}
+                      </h4>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <span className="text-[10px] text-onyx-500 dark:text-onyx-400 font-semibold">
+                          {item.soldQty} Unit
+                        </span>
+                        <span className={cn("text-[9px] font-bold px-1.5 py-0.2 rounded-md", perf.badgeClass)}>
+                          {perf.badge}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-black text-onyx-900 dark:text-white">
+                      Rp{item.revenue.toLocaleString("id-ID")}
+                    </span>
+                    <div className="flex items-center justify-end gap-1 mt-0.5">
+                      <span className={cn(
+                        "text-[9px] font-bold",
+                        perf.isUp ? "text-emerald-600 dark:text-emerald-450" : "text-rose-600 dark:text-rose-455"
+                      )}>
+                        {perf.trend}
+                      </span>
+                      <span className="text-[8px] text-onyx-400 dark:text-onyx-500 font-semibold">
+                        vs pekan lalu
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-xs font-bold text-onyx-900 dark:text-white">
-                    Rp{item.revenue.toLocaleString("id-ID")}
-                  </span>
-                  <span className="text-xs text-onyx-450 dark:text-onyx-500 block mt-0.5">Total Omzet</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </CardContent>
         </Card>
       </div>

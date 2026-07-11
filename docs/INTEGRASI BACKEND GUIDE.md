@@ -138,6 +138,19 @@ Dokumen ini memetakan seluruh komponen visual (View) di folder [components/](fil
     }
     ```
 
+* **Aturan Logika Bisnis & Penyaringan Data (Filtering & Business Logic)**:
+  Untuk meminimalkan data tidak penting (noise) dan membantu pengguna berfokus pada masalah prioritas, API backend disarankan menerapkan aturan filter dan sorting berikut pada data `wasteList`:
+  1. **Kriteria Penyaringan (Threshold Filtering)**:
+     Sebuah produk dimasukkan ke dalam `wasteList` hanya jika memenuhi salah satu atau kedua kondisi berikut (Logika `OR`):
+     * **Rasio Sisa (wastePercentage) > 15%**
+     * **Estimasi Kerugian Finansial (wasteQty * price) > Rp 100.000**
+     Jika produk tidak memenuhi salah satu kriteria di atas (misal sisa sangat sedikit dengan nilai kerugian rendah), produk tidak perlu dikirim dalam list untuk menjaga kebersihan dashboard.
+  2. **Kriteria Pengurutan (Sorting)**:
+     Urutkan data `wasteList` secara menurun (*descending*) berdasarkan **Rasio Sisa Terbesar** (atau *Estimasi Kerugian Finansial Terbesar*) sehingga peringkat kerugian `1`, `2`, `3` dst. terpetakan secara otomatis dan tepat.
+  3. **Batasan Tampilan Klien (Client Rendering)**:
+     * Halaman Detail Waste hanya akan menampilkan **Top 3** produk sisa secara default, dan sisa produk peringkat berikutnya dapat dibuka oleh user secara interaktif via tombol "Lihat Semua".
+     * Halaman Overview (kartu `WasteProgress`) membatasi render secara ketat hanya pada **Top 3** produk dengan rasio sisa tertinggi untuk menghemat tinggi layout.
+
 ---
 
 ## 4. Halaman Sales Analytics

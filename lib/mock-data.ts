@@ -135,6 +135,33 @@ export const initialWasteData: WasteItem[] = [
     price: 10000,
     insight: "Produksi donat sangat efisien dengan tingkat sisa di bawah batas aman (38%).",
   },
+  {
+    id: "w-4",
+    name: "Croissant Cokelat",
+    wastePercentage: 58,
+    wasteQty: 8,
+    unit: "Pcs",
+    price: 25000,
+    insight: "Sisa croissant cukup tinggi (58%). Pertimbangkan memanaskannya kembali untuk program bundling sarapan.",
+  },
+  {
+    id: "w-5",
+    name: "Matcha Latte",
+    wastePercentage: 45,
+    wasteQty: 12,
+    unit: "Cup",
+    price: 22000,
+    insight: "Permintaan matcha berfluktuasi tinggi. AI menyarankan pengurangan takaran seduh di sore hari.",
+  },
+  {
+    id: "w-6",
+    name: "Kopi Susu Aren",
+    wastePercentage: 15,
+    wasteQty: 5,
+    unit: "Cup",
+    price: 18000,
+    insight: "Tingkat sisa kopi susu sangat minim, pertahankan kapasitas brewing harian.",
+  },
 ];
 
 // 4. Sales Analytics Data (Ranking Best Sellers)

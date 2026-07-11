@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import { Sparkles, TrendingDown } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -31,18 +32,21 @@ const monthlyWasteData = [
 export function ViewWaste() {
   const [wasteList] = useState<WasteItem[]>(initialWasteData);
   const [timeframe, setTimeframe] = useState<"Harian" | "Mingguan">("Harian");
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const activeChartData = timeframe === "Harian" ? weeklyWasteData : monthlyWasteData;
 
-  // Calculate total loss automatically (price * waste quantity)
+  // Calculate total loss automatically (price * waste quantity) and sort descending by waste percentage
   const calculatedLosses = useMemo(() => {
-    return wasteList.map((item) => {
-      const loss = item.price * item.wasteQty;
-      return {
-        ...item,
-        loss,
-      };
-    });
+    return wasteList
+      .map((item) => {
+        const loss = item.price * item.wasteQty;
+        return {
+          ...item,
+          loss,
+        };
+      })
+      .sort((a, b) => b.wastePercentage - a.wastePercentage);
   }, [wasteList]);
 
   // Total global loss sum
@@ -108,135 +112,53 @@ export function ViewWaste() {
         </Card>
       </div>
 
-      {/* Grid: Chart and Rankings */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Waste Chart */}
-        <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl lg:col-span-3 flex flex-col h-full shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-4 space-y-0">
-            <div>
-              <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
-                Tren Volume Sisa Produk
-              </CardTitle>
-              <CardDescription className="text-onyx-500 dark:text-onyx-400 text-xs">
-                Statistik volume produk sisa dalam satuan unit/pcs
-              </CardDescription>
-            </div>
-            <Select
-              value={timeframe}
-              onValueChange={(value) => value && setTimeframe(value as "Harian" | "Mingguan")}
-            >
-              <SelectTrigger className="w-32 h-9 rounded-xl border-onyx-200/60 dark:border-onyx-800 bg-white dark:bg-onyx-950 text-onyx-700 dark:text-onyx-300 text-xs font-bold focus:ring-chartreuse-500 cursor-pointer">
-                <SelectValue placeholder="Rentang Waktu" />
-              </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-onyx-950 border-onyx-200 dark:border-onyx-800 rounded-xl text-onyx-800 dark:text-white">
-                <SelectItem value="Harian" className="text-xs rounded-lg cursor-pointer">
-                  7 Hari Terakhir
-                </SelectItem>
-                <SelectItem value="Mingguan" className="text-xs rounded-lg cursor-pointer">
-                  4 Minggu Terakhir
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </CardHeader>
-          <CardContent className="flex-1 pb-4">
-            <ChartContainer config={chartConfig} className="w-full h-[200px] min-h-0">
-              <BarChart data={activeChartData} margin={{ top: 10, right: 45, left: 15, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="name"
-                  axisLine={false}
-                  tickLine={false}
-                  tickMargin={10}
-                  className="text-onyx-400 dark:text-onyx-500 text-xs font-medium"
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  tickMargin={10}
-                  tickFormatter={(value) => `${value} Pcs`}
-                  width={55}
-                  className="text-onyx-400 dark:text-onyx-500 text-xs font-medium"
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar
-                  dataKey="Sisa"
-                  fill="var(--color-toffee-600)"
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={28}
-                />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        {/* Waste Rankings */}
-        <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl lg:col-span-2 flex flex-col h-full shadow-sm">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
-              Peringkat Sisa Tertinggi
-            </CardTitle>
-            <CardDescription className="text-onyx-500 dark:text-onyx-400 text-xs">
-              Daftar produk makanan yang paling sering tersisa
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 space-y-4">
-            {calculatedLosses.map((item, index) => (
-              <div key={item.id} className="p-3.5 rounded-xl bg-onyx-50/50 dark:bg-onyx-950/40 border border-onyx-200/60 dark:border-onyx-800/40 flex items-center justify-between gap-3 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <span className={`h-6 w-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 ${
-                    index === 0
-                      ? "bg-rose-500 text-white"
-                      : index === 1
-                      ? "bg-toffee-600 text-white"
-                      : "bg-onyx-200 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-400"
-                  }`}>
-                    {index + 1}
-                  </span>
-                  <img 
-                    src="/brownies.webp" 
-                    className="h-10 w-10 rounded-lg object-cover border border-onyx-200/40 dark:border-onyx-800/40 shrink-0" 
-                    alt={item.name} 
-                  />
-                  <div>
-                    <h4 className="text-xs font-bold text-onyx-900 dark:text-white truncate max-w-[90px]">{item.name}</h4>
-                    <span className="text-xs text-onyx-450 dark:text-onyx-500 block mt-0.5">{item.wastePercentage}% Sisa ({item.wasteQty} Pcs)</span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <span className="text-xs font-bold text-rose-600 dark:text-rose-400">
-                    Rp{item.loss.toLocaleString("id-ID")}
-                  </span>
-                  <span className="text-xs text-onyx-450 dark:text-onyx-500 block mt-0.5">Est. Kerugian</span>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
-
       {/* Cards Grid with AI Insight details */}
       <div className="space-y-4">
-        <div>
-          <h3 className="text-lg font-bold text-onyx-900 dark:text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-chartreuse-600 dark:text-chartreuse-400" />
-            Detail Kerugian & Saran Perbaikan AI
-          </h3>
-          <p className="text-xs text-onyx-500 dark:text-onyx-400 mt-1">
-            Audit sisa makanan dan saran taktis dari AI untuk masing-masing menu.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div>
+            <h3 className="text-lg font-bold text-onyx-900 dark:text-white flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-chartreuse-600 dark:text-chartreuse-400" />
+              Detail Kerugian & Saran Perbaikan AI
+            </h3>
+            <p className="text-xs text-onyx-500 dark:text-onyx-400 mt-1">
+              Audit sisa makanan dan saran taktis dari AI untuk masing-masing menu.
+            </p>
+          </div>
+          {calculatedLosses.length > 3 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-xs font-bold border-onyx-200/60 dark:border-onyx-800 bg-white dark:bg-onyx-900 text-onyx-700 dark:text-onyx-300 hover:bg-onyx-50 dark:hover:bg-onyx-850 cursor-pointer self-start md:self-auto h-9 px-4 rounded-xl"
+            >
+              {isExpanded ? "Sembunyikan" : `Lihat Semua (${calculatedLosses.length})`}
+            </Button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {calculatedLosses.map((item) => (
+          {(isExpanded ? calculatedLosses : calculatedLosses.slice(0, 3)).map((item, index) => (
             <Card 
               key={item.id} 
               className={cn(
-                "border backdrop-blur-md rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5",
+                "border backdrop-blur-md rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 relative overflow-hidden",
                 item.wastePercentage > 50
                   ? "border-rose-500/20 bg-rose-500/2 dark:bg-rose-950/5"
                   : "border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60"
               )}
             >
+              {/* Rank Badge */}
+              <span className={cn(
+                "absolute top-4 right-4 h-6 w-6 rounded-sm text-xs font-bold flex items-center justify-center",
+                index === 0
+                  ? "bg-rose-500/10 text-rose-500"
+                  : index === 1
+                  ? "bg-toffee-500/10 text-toffee-650 dark:text-toffee-400"
+                  : "bg-onyx-100 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-400"
+              )}>
+                {index + 1}
+              </span>
+
               <div className="space-y-4">
                 {/* Header: Image + Name + Price */}
                 <div className="flex items-center gap-3.5">
@@ -293,7 +215,7 @@ export function ViewWaste() {
                     <span className="text-[10px] font-bold text-chartreuse-700 dark:text-chartreuse-400 block mb-0.5">
                       Saran Perbaikan AI
                     </span>
-                    <p className="text-xs text-onyx-700 dark:text-onyx-200 leading-relaxed font-medium">
+                    <p className="text-sm text-onyx-700 dark:text-onyx-200 leading-relaxed font-medium">
                       {item.insight}
                     </p>
                   </div>
@@ -302,6 +224,67 @@ export function ViewWaste() {
             </Card>
           ))}
         </div>
+      </div>
+
+      {/* Full-width Waste Chart */}
+      <div className="w-full">
+        <Card className="border border-onyx-200/50 dark:border-onyx-800 bg-white/70 dark:bg-onyx-900/60 backdrop-blur-md rounded-2xl w-full flex flex-col shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between pb-4 space-y-0">
+            <div>
+              <CardTitle className="text-lg font-bold text-onyx-900 dark:text-white">
+                Tren Volume Sisa Produk
+              </CardTitle>
+              <CardDescription className="text-onyx-500 dark:text-onyx-400 text-xs">
+                Statistik volume produk sisa dalam satuan unit/pcs
+              </CardDescription>
+            </div>
+            <Select
+              value={timeframe}
+              onValueChange={(value) => value && setTimeframe(value as "Harian" | "Mingguan")}
+            >
+              <SelectTrigger className="w-32 h-9 rounded-xl border-onyx-200/60 dark:border-onyx-800 bg-white dark:bg-onyx-950 text-onyx-700 dark:text-onyx-300 text-xs font-bold focus:ring-chartreuse-500 cursor-pointer">
+                <SelectValue placeholder="Rentang Waktu" />
+              </SelectTrigger>
+              <SelectContent className="bg-white dark:bg-onyx-950 border-onyx-200 dark:border-onyx-800 rounded-xl text-onyx-800 dark:text-white">
+                <SelectItem value="Harian" className="text-xs rounded-lg cursor-pointer">
+                  7 Hari Terakhir
+                </SelectItem>
+                <SelectItem value="Mingguan" className="text-xs rounded-lg cursor-pointer">
+                  4 Minggu Terakhir
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent className="flex-1 pb-4">
+            <ChartContainer config={chartConfig} className="w-full h-[240px] min-h-0">
+              <BarChart data={activeChartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  className="text-onyx-400 dark:text-onyx-500 text-xs font-medium"
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tickMargin={10}
+                  tickFormatter={(value) => `${value} Pcs`}
+                  width={55}
+                  className="text-onyx-400 dark:text-onyx-500 text-xs font-medium"
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar
+                  dataKey="Sisa"
+                  fill="var(--color-toffee-600)"
+                  radius={[4, 4, 0, 0]}
+                  maxBarSize={48}
+                />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

@@ -86,16 +86,16 @@ export function ViewOverview({ setActiveTab }: ViewOverviewProps) {
       </div>
 
       {/* Small Notification-style AI Insight Banner (60-80px) */}
-      <div className="rounded-xl border border-chartreuse-500/20 bg-chartreuse-500/5 dark:bg-chartreuse-500/2 px-4 py-3 flex items-center justify-between gap-4">
+      <div className="rounded-xl border border-rose-500/25 bg-rose-500/5 dark:bg-rose-950/10 px-4 py-3 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-chartreuse-600 dark:text-chartreuse-400 shrink-0" />
+          <Sparkles className="h-4 w-4 text-rose-500 dark:text-rose-455 shrink-0" />
           <p className="text-xs text-onyx-800 dark:text-onyx-200">
-            <span className="font-bold">EcoAI Insight Hari Ini:</span> Produksi Kue Brownies Cokelat diperkirakan surplus tinggi. Harap kurangi produksi.
+            <span className="font-bold text-rose-600 dark:text-rose-400">EcoAI Peringatan Hari Ini:</span> Produksi Kue Brownies Cokelat diperkirakan surplus tinggi. Harap kurangi produksi.
           </p>
         </div>
         <button 
           onClick={() => setActiveTab("forecast")}
-          className="text-xs font-bold text-chartreuse-700 dark:text-chartreuse-400 hover:underline shrink-0"
+          className="text-xs font-bold text-rose-600 dark:text-rose-400 hover:underline shrink-0 cursor-pointer"
         >
           Lihat Detail
         </button>
